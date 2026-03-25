@@ -1,7 +1,13 @@
-"""Master ingestion orchestrator. Run with: python ingestion/run_all.py"""
+"""Master ingestion orchestrator.
+
+Run with:
+    docker compose --profile ingestion up ingestion
+
+Or individually:
+    docker compose run --rm ingestion python ingestion/02_load_verses.py
+"""
 import subprocess
 import sys
-from pathlib import Path
 
 SCRIPTS = [
     "ingestion/01_load_surahs.py",
@@ -17,16 +23,15 @@ SCRIPTS = [
 ]
 
 
-def main():
+def main() -> None:
     for script in SCRIPTS:
-        print(f"\n{'='*60}")
-        print(f"Running {script}")
+        print(f"\n{'=' * 60}")
+        print(f"  {script}")
         print("=" * 60)
         result = subprocess.run([sys.executable, script], check=False)
         if result.returncode != 0:
-            print(f"ERROR: {script} failed with exit code {result.returncode}")
+            print(f"\nERROR: {script} failed (exit {result.returncode})")
             sys.exit(result.returncode)
-        print(f"OK: {script} completed")
 
     print("\nAll ingestion scripts completed successfully.")
 
