@@ -15,9 +15,7 @@ depends_on = None
 
 
 def upgrade() -> None:
-    # ─────────────────────────────────────────
     # SURAHS
-    # ─────────────────────────────────────────
     op.execute("""
         CREATE TABLE surahs (
             id                SMALLINT PRIMARY KEY,
@@ -33,9 +31,7 @@ def upgrade() -> None:
         )
     """)
 
-    # ─────────────────────────────────────────
     # VERSES
-    # ─────────────────────────────────────────
     op.execute("""
         CREATE TABLE verses (
             id                INTEGER PRIMARY KEY,
@@ -61,9 +57,7 @@ def upgrade() -> None:
             ON verses USING GIN (to_tsvector('arabic', COALESCE(text_arabic_clean, '')))
     """)
 
-    # ─────────────────────────────────────────
     # TRANSLATIONS
-    # ─────────────────────────────────────────
     op.execute("""
         CREATE TABLE translations (
             id              SERIAL PRIMARY KEY,
@@ -82,9 +76,7 @@ def upgrade() -> None:
             WHERE language = 'en'
     """)
 
-    # ─────────────────────────────────────────
     # TAFSIRS
-    # ─────────────────────────────────────────
     op.execute("""
         CREATE TABLE tafsirs (
             id          SERIAL PRIMARY KEY,
@@ -104,9 +96,7 @@ def upgrade() -> None:
             WHERE language = 'en'
     """)
 
-    # ─────────────────────────────────────────
     # TOPICS
-    # ─────────────────────────────────────────
     op.execute("""
         CREATE TABLE topics (
             id           SERIAL PRIMARY KEY,
@@ -125,9 +115,7 @@ def upgrade() -> None:
         )
     """)
 
-    # ─────────────────────────────────────────
     # THEMES
-    # ─────────────────────────────────────────
     op.execute("""
         CREATE TABLE themes (
             id         SERIAL PRIMARY KEY,
@@ -144,9 +132,7 @@ def upgrade() -> None:
         )
     """)
 
-    # ─────────────────────────────────────────
     # VERSE SIMILARITIES
-    # ─────────────────────────────────────────
     op.execute("""
         CREATE TABLE verse_similarities (
             source_key   TEXT     NOT NULL REFERENCES verses(verse_key),
@@ -158,9 +144,7 @@ def upgrade() -> None:
         )
     """)
 
-    # ─────────────────────────────────────────
     # MUTASHABIHAT
-    # ─────────────────────────────────────────
     op.execute("""
         CREATE TABLE mutashabihat_phrases (
             id               INTEGER PRIMARY KEY,
@@ -180,9 +164,7 @@ def upgrade() -> None:
         )
     """)
 
-    # ─────────────────────────────────────────
     # EMBEDDINGS (pgvector)
-    # ─────────────────────────────────────────
     op.execute("""
         CREATE TABLE verse_embeddings (
             verse_key      TEXT     NOT NULL REFERENCES verses(verse_key),
