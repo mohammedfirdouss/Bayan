@@ -1,7 +1,9 @@
 import uuid
 from contextlib import asynccontextmanager
 
+import asyncpg
 from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -23,6 +25,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Tibyan API", version="0.1.0", lifespan=lifespan)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+
+@app.exception_handler(asyncpg.PostgresConnectionError)
+async def db_unavailable_handler(request: Request, exc: asyncpg.PostgresConnectionError):
+    return JSONResponse(status_code=503, content={"detail": "Database unavailable"})
 
 app.include_router(search_router,  prefix="/search",  tags=["search"])
 app.include_router(verify_router,  prefix="/verify",  tags=["verify"])

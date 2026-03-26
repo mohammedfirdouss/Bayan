@@ -95,12 +95,19 @@ async def generate_outline(
     topic: str,
     khutbah_style: str,
     target_duration_minutes: int,
+    include_tafsir_depth: str = "brief",
 ) -> OutlineResponse:
     style_note = "Eid sermon" if khutbah_style == "eid" else "Friday Jumu'ah sermon"
+    tafsir_instruction = {
+        "none": "Do not include tafsir notes (set tafsir_note to null for all verses).",
+        "brief": "Include brief tafsir notes (1-2 sentences) where relevant.",
+        "full": "Include detailed tafsir notes (3-5 sentences) for each verse.",
+    }[include_tafsir_depth]
     user_message = (
         f"Topic: {topic}\n"
         f"Style: {style_note}\n"
-        f"Target duration: {target_duration_minutes} minutes"
+        f"Target duration: {target_duration_minutes} minutes\n"
+        f"Tafsir depth: {tafsir_instruction}"
     )
 
     result: ClaudeResult = await run_claude(

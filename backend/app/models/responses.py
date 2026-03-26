@@ -17,6 +17,8 @@ class TafsirResult(BaseModel):
 
 
 class SearchScores(BaseModel):
+    semantic: float
+    keyword: float
     hybrid: float
 
 

@@ -9,7 +9,7 @@ WITH semantic AS (
         ve.verse_key,
         1 - (ve.embedding <=> $1::vector) AS semantic_score
     FROM verse_embeddings ve
-    WHERE ve.embedding_type = 'composite'
+    WHERE ve.embedding_type = $5
       AND ve.model = 'text-embedding-3-large'
     ORDER BY ve.embedding <=> $1::vector
     LIMIT 50
@@ -28,14 +28,18 @@ keyword AS (
 ),
 combined AS (
     SELECT
-        COALESCE(s.verse_key, k.verse_key) AS verse_key,
+        COALESCE(s.verse_key, k.verse_key)  AS verse_key,
+        COALESCE(s.semantic_score, 0)        AS semantic_score,
+        COALESCE(k.keyword_score, 0)         AS keyword_score,
         COALESCE(s.semantic_score * 0.65, 0)
-        + COALESCE(k.keyword_score, 0)      AS hybrid_score
+        + COALESCE(k.keyword_score, 0)       AS hybrid_score
     FROM semantic s
     FULL OUTER JOIN keyword k USING (verse_key)
 )
 SELECT
     c.verse_key,
+    c.semantic_score,
+    c.keyword_score,
     c.hybrid_score,
     v.text_arabic,
     v.ayah_number,
@@ -57,25 +61,27 @@ LEFT JOIN tafsirs tf
 LEFT JOIN verse_topics vt ON vt.verse_key = c.verse_key
 LEFT JOIN topics top      ON top.id = vt.topic_id
 GROUP BY
-    c.verse_key, c.hybrid_score, v.text_arabic, v.ayah_number,
+    c.verse_key, c.semantic_score, c.keyword_score, c.hybrid_score,
+    v.text_arabic, v.ayah_number,
     v.surah_number, v.juz, s.name_simple, s.name_arabic,
     tr.text, tf.text_plain, tf.text_html
 ORDER BY c.hybrid_score DESC
 LIMIT $4
 """
 
+# $5 = embedding_type, $6 = topic
 HYBRID_SEARCH_TOPIC_SQL = """
 WITH semantic AS (
     SELECT
         ve.verse_key,
         1 - (ve.embedding <=> $1::vector) AS semantic_score
     FROM verse_embeddings ve
-    WHERE ve.embedding_type = 'composite'
+    WHERE ve.embedding_type = $5
       AND ve.model = 'text-embedding-3-large'
       AND ve.verse_key IN (
           SELECT vt2.verse_key FROM verse_topics vt2
           JOIN topics top2 ON top2.id = vt2.topic_id
-          WHERE lower(top2.name) = lower($5)
+          WHERE lower(top2.name) = lower($6)
       )
     ORDER BY ve.embedding <=> $1::vector
     LIMIT 50
@@ -93,20 +99,24 @@ keyword AS (
       AND t.verse_key IN (
           SELECT vt2.verse_key FROM verse_topics vt2
           JOIN topics top2 ON top2.id = vt2.topic_id
-          WHERE lower(top2.name) = lower($5)
+          WHERE lower(top2.name) = lower($6)
       )
     LIMIT 50
 ),
 combined AS (
     SELECT
-        COALESCE(s.verse_key, k.verse_key) AS verse_key,
+        COALESCE(s.verse_key, k.verse_key)  AS verse_key,
+        COALESCE(s.semantic_score, 0)        AS semantic_score,
+        COALESCE(k.keyword_score, 0)         AS keyword_score,
         COALESCE(s.semantic_score * 0.65, 0)
-        + COALESCE(k.keyword_score, 0)      AS hybrid_score
+        + COALESCE(k.keyword_score, 0)       AS hybrid_score
     FROM semantic s
     FULL OUTER JOIN keyword k USING (verse_key)
 )
 SELECT
     c.verse_key,
+    c.semantic_score,
+    c.keyword_score,
     c.hybrid_score,
     v.text_arabic,
     v.ayah_number,
@@ -128,7 +138,8 @@ LEFT JOIN tafsirs tf
 LEFT JOIN verse_topics vt ON vt.verse_key = c.verse_key
 LEFT JOIN topics top      ON top.id = vt.topic_id
 GROUP BY
-    c.verse_key, c.hybrid_score, v.text_arabic, v.ayah_number,
+    c.verse_key, c.semantic_score, c.keyword_score, c.hybrid_score,
+    v.text_arabic, v.ayah_number,
     v.surah_number, v.juz, s.name_simple, s.name_arabic,
     tr.text, tf.text_plain, tf.text_html
 ORDER BY c.hybrid_score DESC
@@ -144,18 +155,19 @@ async def hybrid_search(
     topic: str | None = None,
     revelation_place: str | None = None,
     juz: int | None = None,
+    embedding_type: str = "composite",
 ) -> list[asyncpg.Record]:
     pool = get_pool()
     async with pool.acquire() as conn:
         if topic:
             rows = await conn.fetch(
                 HYBRID_SEARCH_TOPIC_SQL,
-                query_vector, query_text, tafsir_slug, top_k, topic,
+                query_vector, query_text, tafsir_slug, top_k, embedding_type, topic,
             )
         else:
             rows = await conn.fetch(
                 HYBRID_SEARCH_SQL,
-                query_vector, query_text, tafsir_slug, top_k,
+                query_vector, query_text, tafsir_slug, top_k, embedding_type,
             )
 
     # Apply post-filter for revelation_place and juz (small result set, fine in Python)

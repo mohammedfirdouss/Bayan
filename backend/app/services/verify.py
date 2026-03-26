@@ -29,12 +29,15 @@ Rules:
 
 async def verify_text(text: str, language: str) -> VerifyResponse:
     # Pre-search: embed and find candidates to give Claude a head start
+    # Use arabic_only embeddings for Arabic input, translation embeddings for English
+    embedding_type = "arabic_only" if language == "ar" else "translation"
     query_vector = await get_embedding(text)
     candidate_rows = await db.hybrid_search(
         query_vector=query_vector,
         query_text=text,
         tafsir_slug="ibn-kathir",
         top_k=5,
+        embedding_type=embedding_type,
     )
 
     candidates_context = ""

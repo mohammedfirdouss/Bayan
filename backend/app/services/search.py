@@ -58,7 +58,11 @@ async def hybrid_search(
             tafsir=tafsir,
             topics=row["topics"] or [],
             similar_verses=similar,
-            scores=SearchScores(hybrid=round(row["hybrid_score"], 4)),
+            scores=SearchScores(
+                semantic=round(row["semantic_score"], 4),
+                keyword=round(row["keyword_score"], 4),
+                hybrid=round(row["hybrid_score"], 4),
+            ),
         ))
 
     return SearchResponse(

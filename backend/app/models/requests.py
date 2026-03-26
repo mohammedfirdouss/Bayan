@@ -27,3 +27,4 @@ class OutlineRequest(BaseModel):
     language: Literal["en"] = "en"
     khutbah_style: Literal["friday", "eid"] = "friday"
     target_duration_minutes: int = Field(20, ge=10, le=45)
+    include_tafsir_depth: Literal["none", "brief", "full"] = "brief"
