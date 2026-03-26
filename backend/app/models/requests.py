@@ -15,3 +15,15 @@ class SearchRequest(BaseModel):
     filters: SearchFilters = Field(default_factory=SearchFilters)
     include_tafsir: bool = True
     tafsir_slug: str = "ibn-kathir"
+
+
+class VerifyRequest(BaseModel):
+    text: str = Field(..., min_length=5, max_length=2000)
+    language: Literal["ar", "en"] = "ar"
+
+
+class OutlineRequest(BaseModel):
+    topic: str = Field(..., min_length=5, max_length=300)
+    language: Literal["en"] = "en"
+    khutbah_style: Literal["friday", "eid"] = "friday"
+    target_duration_minutes: int = Field(20, ge=10, le=45)

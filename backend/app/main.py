@@ -2,13 +2,15 @@ import uuid
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
-from slowapi.errors import RateLimitExceeded
 from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 
 from app.config import settings
 from app.db.pool import close_pool, init_pool
 from app.limiter import limiter
 from app.api.search import router as search_router
+from app.api.verify import router as verify_router
+from app.api.outline import router as outline_router
 
 
 @asynccontextmanager
@@ -22,7 +24,9 @@ app = FastAPI(title="Tibyan API", version="0.1.0", lifespan=lifespan)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-app.include_router(search_router, prefix="/search", tags=["search"])
+app.include_router(search_router,  prefix="/search",  tags=["search"])
+app.include_router(verify_router,  prefix="/verify",  tags=["verify"])
+app.include_router(outline_router, prefix="/outline", tags=["outline"])
 
 
 @app.middleware("http")
