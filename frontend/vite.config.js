@@ -6,6 +6,7 @@ export default defineConfig({
   server: {
     port: 5173,
     host: '0.0.0.0',
+    allowedHosts: true,
     proxy: {
       '/search': 'http://localhost:8000',
       '/verify': 'http://localhost:8000',

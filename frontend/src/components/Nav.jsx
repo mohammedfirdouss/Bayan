@@ -1,7 +1,7 @@
 export default function Nav({ active, onNavigate }) {
   const tabs = [
-    { id: 'search', label: 'Search' },
-    { id: 'verify', label: 'Verify' },
+    { id: 'search',  label: 'Search'  },
+    { id: 'verify',  label: 'Verify'  },
     { id: 'outline', label: 'Outline' },
   ]
 
