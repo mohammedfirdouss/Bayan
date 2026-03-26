@@ -1,0 +1,191 @@
+/* ============ FONTS ============ */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ============ DESIGN TOKENS ============ */
+:root {
+  --emerald-deep: #0C4B33;
+  --emerald: #14694D;
+  --emerald-light: #1A8A65;
+  --gold: #C9A84C;
+  --gold-light: #DFC06A;
+  --gold-glow: #E8D08C;
+  --parchment: #F7F2E8;
+  --parchment-dark: #EDE5D4;
+  --ink: #1A1A17;
+  --ink-soft: #3D3B35;
+  --ink-muted: #6B6860;
+  --cream: #FFFDF7;
+  --warm-white: #FEFCF6;
+}
+
+/* ============ RESET ============ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ============ TYPOGRAPHY UTILITIES ============ */
+.arabic {
+  font-family: 'Amiri', serif;
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+.heading {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* ============ GEOMETRIC BACKGROUND PATTERN ============ */
+.geo-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cpath d='M60 0L120 60L60 120L0 60Z' fill='none' stroke='%23C9A84C' stroke-width='0.5'/%3E%3Cpath d='M60 20L100 60L60 100L20 60Z' fill='none' stroke='%23C9A84C' stroke-width='0.5'/%3E%3Cpath d='M60 40L80 60L60 80L40 60Z' fill='none' stroke='%23C9A84C' stroke-width='0.5'/%3E%3Ccircle cx='60' cy='60' r='8' fill='none' stroke='%23C9A84C' stroke-width='0.3'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+
+/* ============ SKELETON SHIMMER ============ */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--parchment-dark) 25%,
+    var(--parchment) 50%,
+    var(--parchment-dark) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ============ FADE-IN STAGGER ============ */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+/* ============ ISLAMIC STAR ============ */
+.islamic-star {
+  display: inline-block;
+  background: var(--gold);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  flex-shrink: 0;
+}
+
+/* ============ ORNAMENT ============ */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 32px auto;
+  width: fit-content;
+}
+
+.ornament-line {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--parchment);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 168, 76, 0.4);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 168, 76, 0.7);
+}
+
+/* ============ FOCUS STYLES ============ */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ============ SELECTION ============ */
+::selection {
+  background: rgba(201, 168, 76, 0.25);
+  color: var(--ink);
+}
+
+/* ============ GLOBAL LAYOUT ============ */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============ ROTATING SPINNER (Outline loading) ============ */
+@keyframes spinDiamond {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
