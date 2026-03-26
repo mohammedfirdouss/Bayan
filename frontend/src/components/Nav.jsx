@@ -27,7 +27,7 @@ export default function Nav({ active, onNavigate }) {
             fill="#C9A84C"
           />
         </svg>
-        <span style={styles.brandName}>Tibyan</span>
+        <span style={styles.brandName}>Bayan</span>
       </button>
 
       {/* Tabs */}
