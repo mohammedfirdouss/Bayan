@@ -34,6 +34,9 @@ backend/alembic/versions/__pycache__/
 *.swp
 *.swo
 
+# Quran source data (ingestion only, not part of the app)
+quran-data/
+
 # OS
 .DS_Store
 Thumbs.db
