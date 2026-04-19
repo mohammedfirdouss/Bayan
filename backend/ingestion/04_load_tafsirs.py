@@ -57,6 +57,8 @@ def load_tafsir(source: dict) -> None:
 
     rows = []
     for verse_key, item in data.items():
+        if not isinstance(item, dict):
+            continue
         html = item.get("text", "")
         if not html:
             continue
