@@ -7,7 +7,7 @@ import psycopg
 
 DATABASE_URL = os.environ["DATABASE_URL"]
 QURAN_DATA = Path(os.environ.get("QURAN_DATA_PATH", "/app/quran-data"))
-MUTASHABIHAT_DIR = QURAN_DATA / "Mutashabihat ul Quran"
+MUTASHABIHAT_DIR = QURAN_DATA / "Mutashabihat ul Quran" / "Mutashabihat ul Quran.json"
 
 BATCH_SIZE = 200
 
