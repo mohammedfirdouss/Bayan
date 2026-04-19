@@ -2,6 +2,7 @@ import json
 import logging
 
 from app.services.claude import ClaudeResult, run_claude
+from app.services.gemini import run_gemini
 from app.models.responses import (
     KhutbahOutline,
     OutlineResponse,
@@ -96,6 +97,7 @@ async def generate_outline(
     khutbah_style: str,
     target_duration_minutes: int,
     include_tafsir_depth: str = "brief",
+    provider: str = "claude",
 ) -> OutlineResponse:
     style_note = "Eid sermon" if khutbah_style == "eid" else "Friday Jumu'ah sermon"
     tafsir_instruction = {
@@ -110,7 +112,8 @@ async def generate_outline(
         f"Tafsir depth: {tafsir_instruction}"
     )
 
-    result: ClaudeResult = await run_claude(
+    run_llm = run_gemini if provider == "gemini" else run_claude
+    result: ClaudeResult = await run_llm(
         user_message=user_message,
         task_prompt=OUTLINE_TASK_PROMPT,
     )

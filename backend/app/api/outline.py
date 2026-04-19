@@ -16,4 +16,5 @@ async def outline(request: Request, body: OutlineRequest) -> OutlineResponse:
         khutbah_style=body.khutbah_style,
         target_duration_minutes=body.target_duration_minutes,
         include_tafsir_depth=body.include_tafsir_depth,
+        provider=body.provider,
     )

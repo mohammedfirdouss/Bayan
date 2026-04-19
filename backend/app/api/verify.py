@@ -14,4 +14,5 @@ async def verify(request: Request, body: VerifyRequest) -> VerifyResponse:
     return await verify_service.verify_text(
         text=body.text,
         language=body.language,
+        provider=body.provider,
     )

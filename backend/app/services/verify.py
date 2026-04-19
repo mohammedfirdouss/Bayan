@@ -3,6 +3,7 @@ import logging
 
 from app.db import queries as db
 from app.services.claude import ClaudeResult, run_claude
+from app.services.gemini import run_gemini
 from app.services.embedding import get_embedding
 from app.models.responses import VerifyMatch, VerifyResponse
 
@@ -27,7 +28,7 @@ Rules:
 - Never guess. If not found, say not_found."""
 
 
-async def verify_text(text: str, language: str) -> VerifyResponse:
+async def verify_text(text: str, language: str, provider: str = "claude") -> VerifyResponse:
     # Pre-search: embed and find candidates to give Claude a head start
     # Use arabic_only embeddings for Arabic input, translation embeddings for English
     embedding_type = "arabic_only" if language == "ar" else "translation"
@@ -54,7 +55,8 @@ async def verify_text(text: str, language: str) -> VerifyResponse:
         f"Text to verify ({language}):\n\"{text}\"\n\n{candidates_context}"
     )
 
-    result: ClaudeResult = await run_claude(
+    run_llm = run_gemini if provider == "gemini" else run_claude
+    result: ClaudeResult = await run_llm(
         user_message=user_message,
         task_prompt=VERIFY_TASK_PROMPT,
     )

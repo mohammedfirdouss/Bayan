@@ -20,6 +20,7 @@ class SearchRequest(BaseModel):
 class VerifyRequest(BaseModel):
     text: str = Field(..., min_length=5, max_length=2000)
     language: Literal["ar", "en"] = "ar"
+    provider: Literal["claude", "gemini"] = "claude"
 
 
 class OutlineRequest(BaseModel):
@@ -28,3 +29,4 @@ class OutlineRequest(BaseModel):
     khutbah_style: Literal["friday", "eid"] = "friday"
     target_duration_minutes: int = Field(20, ge=10, le=45)
     include_tafsir_depth: Literal["none", "brief", "full"] = "brief"
+    provider: Literal["claude", "gemini"] = "claude"
