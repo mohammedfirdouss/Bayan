@@ -60,10 +60,21 @@ async def verify_text(text: str, language: str, provider: str = "claude") -> Ver
     )
 
     run_llm = run_gemini if provider == "gemini" else run_claude
-    result: ClaudeResult = await run_llm(
-        user_message=user_message,
-        task_prompt=VERIFY_TASK_PROMPT,
-    )
+    try:
+        result: ClaudeResult = await run_llm(
+            user_message=user_message,
+            task_prompt=VERIFY_TASK_PROMPT,
+        )
+    except Exception as e:
+        logger.warning("LLM verification unavailable: %s", e)
+        return VerifyResponse(
+            input_text=text,
+            verification_status="not_found",
+            confidence=0.0,
+            matches=[],
+            claude_analysis="Verification is temporarily unavailable due to AI provider billing/quota limits.",
+            warning="LLM unavailable: check provider API credits or billing status.",
+        )
 
     # Parse Claude's JSON response
     status = "not_found"

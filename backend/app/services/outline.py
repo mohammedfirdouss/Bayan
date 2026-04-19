@@ -113,10 +113,33 @@ async def generate_outline(
     )
 
     run_llm = run_gemini if provider == "gemini" else run_claude
-    result: ClaudeResult = await run_llm(
-        user_message=user_message,
-        task_prompt=OUTLINE_TASK_PROMPT,
-    )
+    try:
+        result: ClaudeResult = await run_llm(
+            user_message=user_message,
+            task_prompt=OUTLINE_TASK_PROMPT,
+        )
+    except Exception as e:
+        logger.warning("LLM outline generation unavailable: %s", e)
+        fallback_outline = KhutbahOutline(
+            title=f"Khutbah on: {topic}",
+            opening_verse=OutlineVerse(
+                verse_key="", text_arabic="", translation="",
+                tafsir_note=None, rationale="",
+            ),
+            sections=[],
+            closing_dua_verse=OutlineVerse(
+                verse_key="", text_arabic="", translation="",
+                tafsir_note=None, rationale="",
+            ),
+        )
+        return OutlineResponse(
+            topic=topic,
+            outline=fallback_outline,
+            verses_cited=[],
+            claude_model=MODEL,
+            corpus_retrieval_count=0,
+            warning="LLM unavailable: check provider API credits or billing status.",
+        )
 
     # Parse Claude's JSON outline
     outline: KhutbahOutline | None = None
