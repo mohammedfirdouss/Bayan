@@ -9,7 +9,7 @@ export default function Nav({ active, onNavigate }) {
     <nav style={styles.nav}>
       {/* Brand */}
       <button
-        onClick={() => onNavigate('search')}
+        onClick={() => onNavigate('home')}
         style={styles.brand}
         aria-label="Go to home"
       >

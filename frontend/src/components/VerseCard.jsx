@@ -22,7 +22,9 @@ export default function VerseCard({
   const [tafsirExpanded, setTafsirExpanded] = useState(false)
 
   const hybridScore =
-    scores?.hybrid_score != null
+    scores?.hybrid != null
+      ? Math.round(scores.hybrid * 100)
+      : scores?.hybrid_score != null
       ? Math.round(scores.hybrid_score * 100)
       : scores?.score != null
       ? Math.round(scores.score * 100)
@@ -104,7 +106,9 @@ export default function VerseCard({
 
       {/* Translation */}
       {translation && (
-        <p style={cardStyles.translation}>{translation}</p>
+        <p style={cardStyles.translation}>
+          {typeof translation === 'object' ? translation?.text : translation}
+        </p>
       )}
 
       {/* Tafsir (collapsible) — hidden in simplified mode */}
