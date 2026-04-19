@@ -80,7 +80,7 @@ TOOLS = [
     },
 ]
 
-BASE_SYSTEM_PROMPT = """You are Tibyan, a scholarly assistant for Islamic sermon (Khutbah) research.
+BASE_SYSTEM_PROMPT = """You are Bayan, a scholarly assistant for Islamic sermon (Khutbah) research.
 
 CRITICAL RULES:
 1. You may ONLY cite Quranic verses that you have retrieved using the search_corpus or get_verse tools.
@@ -111,14 +111,18 @@ async def _execute_search_corpus(tool_input: dict) -> dict:
     top_k = min(tool_input.get("top_k", 10), 20)
     topic = tool_input.get("topic_filter")
 
-    query_vector = await get_embedding(query)
-    rows = await db.hybrid_search(
-        query_vector=query_vector,
-        query_text=query,
-        tafsir_slug="ibn-kathir",
-        top_k=top_k,
-        topic=topic,
-    )
+    try:
+        query_vector = await get_embedding(query)
+        rows = await db.hybrid_search(
+            query_vector=query_vector,
+            query_text=query,
+            tafsir_slug="ibn-kathir",
+            top_k=top_k,
+            topic=topic,
+        )
+    except Exception as e:
+        logger.warning("search_corpus unavailable (embeddings not ready): %s", e)
+        return {"results": [], "count": 0, "warning": "Corpus search unavailable — embeddings not yet generated."}
 
     results = []
     for row in rows:

@@ -32,14 +32,18 @@ async def verify_text(text: str, language: str, provider: str = "claude") -> Ver
     # Pre-search: embed and find candidates to give Claude a head start
     # Use arabic_only embeddings for Arabic input, translation embeddings for English
     embedding_type = "arabic_only" if language == "ar" else "translation"
-    query_vector = await get_embedding(text)
-    candidate_rows = await db.hybrid_search(
-        query_vector=query_vector,
-        query_text=text,
-        tafsir_slug="ibn-kathir",
-        top_k=5,
-        embedding_type=embedding_type,
-    )
+    candidate_rows = []
+    try:
+        query_vector = await get_embedding(text)
+        candidate_rows = await db.hybrid_search(
+            query_vector=query_vector,
+            query_text=text,
+            tafsir_slug="ibn-kathir",
+            top_k=5,
+            embedding_type=embedding_type,
+        )
+    except Exception as e:
+        logger.warning("Embedding unavailable, proceeding without corpus candidates: %s", e)
 
     candidates_context = ""
     if candidate_rows:

@@ -12,99 +12,41 @@ SQLITE_PATH = QURAN_DATA / "Ayah Theme" / "ayah-themes.db" / "ayah-themes.db"
 BATCH_SIZE = 500
 
 
-def inspect_schema(conn: sqlite3.Connection) -> dict[str, list[str]]:
-    tables = [
-        row[0]
-        for row in conn.execute(
-            "SELECT name FROM sqlite_master WHERE type='table'"
-        ).fetchall()
-    ]
-    return {
-        t: [col[1] for col in conn.execute(f"PRAGMA table_info({t})").fetchall()]
-        for t in tables
-    }
-
-
-def find_col(columns: list[str], *candidates: str) -> str | None:
-    for c in candidates:
-        if c in columns:
-            return c
-    return None
-
-
 def main() -> None:
     if not SQLITE_PATH.exists():
         print(f"[06] WARNING: {SQLITE_PATH} not found, skipping.")
         return
 
     sqlite_conn = sqlite3.connect(SQLITE_PATH)
-    schema = inspect_schema(sqlite_conn)
-    print(f"  SQLite tables: {list(schema.keys())}")
-    for table, cols in schema.items():
-        print(f"    {table}: {cols}")
+    rows = sqlite_conn.execute(
+        "SELECT theme, surah_number, ayah_from, ayah_to FROM themes"
+    ).fetchall()
+    sqlite_conn.close()
 
-    # Collect all theme names and verse-theme mappings
-    theme_names: dict[int, str] = {}
+    # Build unique theme name → id mapping
+    theme_names: dict[str, int] = {}
     verse_theme_rows: list[tuple[str, int]] = []
 
-    for table, cols in schema.items():
-        theme_col = find_col(cols, "theme", "name", "theme_name", "label")
-        theme_id_col = find_col(cols, "theme_id", "id")
-        verse_col = find_col(cols, "verse_key", "ayah_key", "verse_id", "ayah_id")
-
-        if not (theme_col and verse_col):
+    for theme_name, surah, ayah_from, ayah_to in rows:
+        if not theme_name:
             continue
+        if theme_name not in theme_names:
+            theme_names[theme_name] = len(theme_names) + 1
+        tid = theme_names[theme_name]
 
-        rows = sqlite_conn.execute(
-            f"SELECT {verse_col}, {theme_col}"
-            + (f", {theme_id_col}" if theme_id_col and theme_id_col != theme_col else "")
-            + f" FROM {table}"
-        ).fetchall()
-
-        for row in rows:
-            verse_ref = row[0]
-            theme_name = str(row[1]) if row[1] else None
-            theme_id = row[2] if len(row) > 2 else None
-
-            if not theme_name:
-                continue
-
-            # Assign a stable integer ID for each unique theme name
-            if theme_name not in theme_names.values():
-                tid = theme_id if isinstance(theme_id, int) else len(theme_names) + 1
-                theme_names[tid] = theme_name
-
-            tid = next(k for k, v in theme_names.items() if v == theme_name)
-            verse_theme_rows.append((str(verse_ref), tid))
-
-    sqlite_conn.close()
+        for ayah in range(ayah_from, ayah_to + 1):
+            verse_theme_rows.append((f"{surah}:{ayah}", tid))
 
     if not theme_names:
         print("[06] No theme data found, skipping.")
         return
-
-    # Build id→verse_key lookup if needed
-    sample_verse_refs = [r[0] for r in verse_theme_rows[:10]]
-    needs_id_lookup = all(r.isdigit() for r in sample_verse_refs if r)
-
-    id_to_key: dict[int, str] = {}
-    if needs_id_lookup:
-        with psycopg.connect(DATABASE_URL) as pg_conn:
-            id_to_key = {
-                row[0]: row[1]
-                for row in pg_conn.execute("SELECT id, verse_key FROM verses").fetchall()
-            }
-        verse_theme_rows = [
-            (id_to_key.get(int(vr), vr), tid)
-            for vr, tid in verse_theme_rows
-        ]
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cur:
             before_th = cur.execute("SELECT COUNT(*) FROM themes").fetchone()[0]
             cur.executemany(
                 "INSERT INTO themes (id, name) VALUES (%s, %s) ON CONFLICT DO NOTHING",
-                list(theme_names.items()),
+                [(tid, name) for name, tid in theme_names.items()],
             )
             after_th = cur.execute("SELECT COUNT(*) FROM themes").fetchone()[0]
 
