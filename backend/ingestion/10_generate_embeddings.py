@@ -236,7 +236,7 @@ async def main() -> None:
         await pool.close()
 
     # Final counts
-    async with asyncpg.connect(DATABASE_URL, init=register_vector) as conn:
+    async with asyncpg.connect(DATABASE_URL) as conn:
         await register_vector(conn)
         counts = await conn.fetch("""
             SELECT embedding_type, COUNT(*) AS n
