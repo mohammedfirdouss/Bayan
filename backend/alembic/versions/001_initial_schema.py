@@ -177,14 +177,11 @@ def upgrade() -> None:
         )
     """)
 
-    # HNSW index on composite embeddings only — no probes tuning needed,
-    # builds incrementally, near-exact recall at 6,236 rows
+    # pgvector ANN indexes for `vector` are limited to 2,000 dimensions.
+    # We use 3,072-dim embeddings, so keep exact search and index filter columns.
     op.execute("""
-        CREATE INDEX idx_verse_embeddings_hnsw
-            ON verse_embeddings
-            USING hnsw (embedding vector_cosine_ops)
-            WITH (m = 16, ef_construction = 64)
-            WHERE embedding_type = 'composite'
+        CREATE INDEX idx_verse_embeddings_lookup
+            ON verse_embeddings (embedding_type, model)
     """)
 
     op.execute("""
@@ -199,16 +196,16 @@ def upgrade() -> None:
     """)
 
     op.execute("""
-        CREATE INDEX idx_tafsir_embeddings_hnsw
-            ON tafsir_embeddings
-            USING hnsw (embedding vector_cosine_ops)
-            WITH (m = 16, ef_construction = 64)
+        CREATE INDEX idx_tafsir_embeddings_lookup
+            ON tafsir_embeddings (tafsir_slug, verse_key)
     """)
 
 
 def downgrade() -> None:
+    op.execute("DROP INDEX IF EXISTS idx_tafsir_embeddings_lookup")
     op.execute("DROP INDEX IF EXISTS idx_tafsir_embeddings_hnsw")
     op.execute("DROP TABLE IF EXISTS tafsir_embeddings")
+    op.execute("DROP INDEX IF EXISTS idx_verse_embeddings_lookup")
     op.execute("DROP INDEX IF EXISTS idx_verse_embeddings_hnsw")
     op.execute("DROP TABLE IF EXISTS verse_embeddings")
     op.execute("DROP TABLE IF EXISTS mutashabihat_occurrences")
