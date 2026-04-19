@@ -6,7 +6,7 @@ export default function Nav({ active, onNavigate }) {
   ]
 
   return (
-    <nav style={styles.nav}>
+    <nav style={styles.nav} className="nav-bar">
       {/* Brand */}
       <button
         onClick={() => onNavigate('home')}
@@ -27,15 +27,16 @@ export default function Nav({ active, onNavigate }) {
             fill="#C9A84C"
           />
         </svg>
-        <span style={styles.brandName}>Bayan</span>
+        <span style={styles.brandName} className="nav-brand-name">Bayan</span>
       </button>
 
       {/* Tabs */}
-      <div style={styles.tabs} role="navigation" aria-label="Main navigation">
+      <div style={styles.tabs} className="nav-tabs" role="navigation" aria-label="Main navigation">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onNavigate(tab.id)}
+            className="nav-tab"
             style={{
               ...styles.tab,
               ...(active === tab.id ? styles.tabActive : {}),

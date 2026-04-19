@@ -50,7 +50,7 @@ export default function Home({ onNavigate }) {
       </section>
 
       {/* ── PROBLEM ── */}
-      <section ref={addRef} style={{ ...s.section, ...s.sectionCream }} className="fade-section">
+      <section ref={addRef} style={{ ...s.section, ...s.sectionCream }} className="fade-section home-section">
         <p style={s.label}>The Problem</p>
         <h2 style={s.sectionTitle}>Khutbah Preparation<br />Takes Too Long</h2>
         <p style={s.sectionBody}>
@@ -73,7 +73,7 @@ export default function Home({ onNavigate }) {
       </section>
 
       {/* ── WHAT IS BAYAN ── */}
-      <section style={{ ...s.section, background: 'var(--parchment)', position: 'relative', overflow: 'hidden' }}>
+      <section className="home-section" style={{ ...s.section, background: 'var(--parchment)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ ...s.geoBg, opacity: 0.04 }} />
         <div style={s.whatInner}>
           <div ref={addRef} style={s.whatText} className="fade-section">
@@ -124,7 +124,7 @@ export default function Home({ onNavigate }) {
       </section>
 
       {/* ── FEATURES ── */}
-      <section ref={addRef} style={{ ...s.section, ...s.sectionCream, textAlign: 'center' }} className="fade-section">
+      <section ref={addRef} style={{ ...s.section, ...s.sectionCream, textAlign: 'center' }} className="fade-section home-section">
         <p style={s.label}>Core Features</p>
         <h2 style={s.sectionTitle}>Source. Verify. Structure.</h2>
         <p style={s.sectionBody}>Three pillars that transform how you prepare.</p>
@@ -166,7 +166,7 @@ export default function Home({ onNavigate }) {
       </section>
 
       {/* ── COMMITMENT ── */}
-      <section style={{ ...s.section, background: 'var(--emerald-deep)', position: 'relative', overflow: 'hidden', textAlign: 'center' }}>
+      <section className="home-section" style={{ ...s.section, background: 'var(--emerald-deep)', position: 'relative', overflow: 'hidden', textAlign: 'center' }}>
         <div style={{ ...s.geoBg, opacity: 0.05 }} />
         <p style={{ ...s.label, color: 'var(--gold-glow)' }}>Our Commitment</p>
         <h2 style={{ ...s.sectionTitle, color: 'var(--parchment)' }}>Built to Assist, Not Replace</h2>
@@ -189,7 +189,7 @@ export default function Home({ onNavigate }) {
       </section>
 
       {/* ── ROADMAP ── */}
-      <section ref={addRef} style={{ ...s.section, background: 'var(--parchment)', textAlign: 'center' }} className="fade-section">
+      <section ref={addRef} style={{ ...s.section, background: 'var(--parchment)', textAlign: 'center' }} className="fade-section home-section">
         <p style={s.label}>Roadmap</p>
         <h2 style={s.sectionTitle}>Growing With the Ummah</h2>
         <p style={s.sectionBody}>Bayan starts with Khutbah preparation and grows into a full scholarly companion.</p>

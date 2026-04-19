@@ -192,7 +192,7 @@ export default function Outline() {
         <div style={styles.inner}>
           {/* Header */}
           <header style={styles.header}>
-            <h1 className="heading" style={styles.title}>
+            <h1 className="heading page-title" style={styles.title}>
               Khutbah Outline Generator
             </h1>
             <p style={styles.subtitle}>
@@ -202,7 +202,7 @@ export default function Outline() {
           </header>
 
           {/* Form — two-column on desktop */}
-          <form onSubmit={handleSubmit} style={styles.form} noValidate>
+          <form onSubmit={handleSubmit} style={styles.form} className="form-card" noValidate>
             <div style={styles.formGrid}>
               {/* Left column */}
               <div style={styles.formLeft}>

@@ -91,7 +91,7 @@ export default function Search() {
       <div style={styles.inner}>
         {/* Page header */}
         <header style={styles.header}>
-          <h1 className="heading" style={styles.title}>
+          <h1 className="heading page-title" style={styles.title}>
             Corpus Search
           </h1>
           <p style={styles.subtitle}>
@@ -101,7 +101,7 @@ export default function Search() {
         </header>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} style={styles.form} noValidate>
+        <form onSubmit={handleSubmit} style={styles.form} className="form-card" noValidate>
           <textarea
             value={query}
             onChange={(e) => setQuery(e.target.value)}

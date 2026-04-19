@@ -40,7 +40,7 @@ export default function Verify() {
         {/* Page header */}
         <header style={styles.header}>
           <div style={styles.sectionLabel}>CITATION VERIFICATION</div>
-          <h1 className="heading" style={styles.title}>
+          <h1 className="heading page-title" style={styles.title}>
             Verify a Quranic Citation
           </h1>
           <p style={styles.subtitle}>
@@ -50,7 +50,7 @@ export default function Verify() {
         </header>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} style={styles.form} noValidate>
+        <form onSubmit={handleSubmit} style={styles.form} className="form-card" noValidate>
           {/* Language toggle */}
           <div style={styles.langRow}>
             <span style={styles.controlLabel}>Language</span>
