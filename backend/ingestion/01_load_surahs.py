@@ -10,8 +10,14 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 QURAN_DATA = Path(os.environ.get("QURAN_DATA_PATH", "/app/quran-data"))
 
 
+def resolve(path: Path) -> Path:
+    if path.is_dir():
+        return path / path.name
+    return path
+
+
 def main() -> None:
-    path = QURAN_DATA / "quran-metadata-surah-name.json"
+    path = resolve(QURAN_DATA / "quran-metadata-surah-name.json")
     with open(path, encoding="utf-8") as f:
         raw = json.load(f)
 

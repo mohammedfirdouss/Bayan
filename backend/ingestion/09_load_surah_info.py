@@ -16,8 +16,14 @@ def strip_html(html: str) -> str:
     return re.sub(r"\s+", " ", plain).strip()
 
 
+def resolve(path: Path) -> Path:
+    if path.is_dir():
+        return path / path.name
+    return path
+
+
 def main() -> None:
-    path = QURAN_DATA / "Surah Info" / "surah-info-en.json"
+    path = resolve(QURAN_DATA / "Surah Info" / "surah-info-en.json")
     with open(path, encoding="utf-8") as f:
         raw = json.load(f)
 

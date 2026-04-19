@@ -11,6 +11,13 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 QURAN_DATA = Path(os.environ.get("QURAN_DATA_PATH", "/app/quran-data"))
 META = QURAN_DATA / "Quran metadata"
 
+
+def resolve(path: Path) -> Path:
+    """Handle nested dirs where foo.json/foo.json is the actual file."""
+    if path.is_dir():
+        return path / path.name
+    return path
+
 BATCH_SIZE = 500
 
 
@@ -61,15 +68,15 @@ def build_sajda_set(filepath: Path) -> set[str]:
 
 def main() -> None:
     # Load structural metadata
-    juz_map = build_verse_map(META / "quran-metadata-juz.json", "juz_number")
-    hizb_map = build_verse_map(META / "quran-metadata-hizb.json", "hizb_number")
-    rub_map = build_verse_map(META / "quran-metadata-rub.json", "rub_el_hizb_number")
-    manzil_map = build_verse_map(META / "quran-metadata-manzil.json", "manzil_number")
-    ruku_map = build_verse_map(META / "quran-metadata-ruku.json", "ruku_number")
-    sajda_set = build_sajda_set(META / "quran-metadata-sajda.json")
+    juz_map = build_verse_map(resolve(META / "quran-metadata-juz.json"), "juz_number")
+    hizb_map = build_verse_map(resolve(META / "quran-metadata-hizb.json"), "hizb_number")
+    rub_map = build_verse_map(resolve(META / "quran-metadata-rub.json"), "rub_el_hizb_number")
+    manzil_map = build_verse_map(resolve(META / "quran-metadata-manzil.json"), "manzil_number")
+    ruku_map = build_verse_map(resolve(META / "quran-metadata-ruku.json"), "ruku_number")
+    sajda_set = build_sajda_set(resolve(META / "quran-metadata-sajda.json"))
 
     # Load verses
-    with open(META / "quran-metadata-ayah.json", encoding="utf-8") as f:
+    with open(resolve(META / "quran-metadata-ayah.json"), encoding="utf-8") as f:
         raw = json.load(f)
 
     verses = list(raw.values()) if isinstance(raw, dict) else raw
