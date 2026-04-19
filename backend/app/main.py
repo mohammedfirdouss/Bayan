@@ -22,7 +22,7 @@ async def lifespan(app: FastAPI):
     await close_pool()
 
 
-app = FastAPI(title="Tibyan API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="Bayan API", version="0.1.0", lifespan=lifespan)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
