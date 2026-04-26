@@ -14,6 +14,9 @@
   --ink-muted: #6b6860;
   --cream: #fffdf7;
   --warm-white: #fefcf6;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 *,
@@ -116,7 +119,7 @@ ol {
 }
 
 .fade-in {
-  animation: fadeUp 0.5s ease forwards;
+  animation: fadeUp 0.4s var(--ease-out) forwards;
   opacity: 0;
 }
 
@@ -252,6 +255,25 @@ ol {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+@keyframes tafsirSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tafsir-body-open {
+  animation: tafsirSlideIn 0.22s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+button:active {
+  transform: scale(0.97);
 }
 
 @keyframes spinDiamond {

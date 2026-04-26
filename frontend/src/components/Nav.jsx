@@ -51,9 +51,14 @@ export default function Nav({ active, onNavigate }) {
             aria-current={active === tab.id ? "page" : undefined}
           >
             {tab.label}
-            {active === tab.id && (
-              <span style={styles.tabUnderline} aria-hidden="true" />
-            )}
+            <span
+              style={{
+                ...styles.tabUnderline,
+                opacity: active === tab.id ? 1 : 0,
+                transform: active === tab.id ? "translateX(-50%) scaleX(1)" : "translateX(-50%) scaleX(0)",
+              }}
+              aria-hidden="true"
+            />
           </button>
         ))}
       </div>
@@ -112,7 +117,7 @@ const styles = {
     padding: "8px 16px",
     borderRadius: 8,
     letterSpacing: "0.03em",
-    transition: "color 0.2s ease, background 0.2s ease",
+    transition: "color 180ms ease-out, background 180ms ease-out",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -126,10 +131,11 @@ const styles = {
     position: "absolute",
     bottom: 2,
     left: "50%",
-    transform: "translateX(-50%)",
     width: "60%",
     height: 2,
     background: "var(--gold)",
     borderRadius: 2,
+    transition: "opacity 180ms ease-out, transform 180ms cubic-bezier(0.23,1,0.32,1)",
+    transformOrigin: "center",
   },
 };

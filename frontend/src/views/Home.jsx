@@ -48,7 +48,7 @@ export default function Home({ onNavigate }) {
           <p style={s.heroAyah}>
             "...a clarification of all things" — Quran 16:89
           </p>
-          <button onClick={() => onNavigate("search")} style={s.heroCta}>
+          <button onClick={() => onNavigate("search")} style={s.heroCta} className="hero-cta">
             Start Searching
             <svg
               width="18"
@@ -462,11 +462,15 @@ export default function Home({ onNavigate }) {
       </footer>
 
       <style>{`
-        .fade-section { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .fade-section { opacity: 0; transform: translateY(24px); transition: opacity 0.6s cubic-bezier(0.23,1,0.32,1), transform 0.6s cubic-bezier(0.23,1,0.32,1); }
         .fade-section.visible { opacity: 1; transform: translateY(0); }
-        .pain-card:hover { border-color: var(--gold) !important; box-shadow: 0 8px 32px rgba(12,75,51,0.07) !important; transform: translateY(-4px) !important; }
-        .feature-card { cursor: pointer; }
-        .feature-card:hover { transform: translateY(-6px) !important; box-shadow: 0 16px 48px rgba(12,75,51,0.09) !important; border-color: var(--gold) !important; }
+        .pain-card { transition: transform 280ms cubic-bezier(0.23,1,0.32,1), box-shadow 280ms ease, border-color 180ms ease !important; }
+        .pain-card:hover { border-color: var(--gold) !important; box-shadow: 0 8px 32px rgba(12,75,51,0.07) !important; transform: translateY(-3px) !important; }
+        .feature-card { cursor: pointer; transition: transform 280ms cubic-bezier(0.23,1,0.32,1), box-shadow 280ms ease, border-color 180ms ease !important; }
+        .feature-card:hover { transform: translateY(-3px) !important; box-shadow: 0 12px 36px rgba(12,75,51,0.09) !important; border-color: var(--gold) !important; }
+        .hero-cta { transition: transform 160ms ease-out, box-shadow 200ms ease !important; }
+        .hero-cta:hover { box-shadow: 0 8px 24px rgba(201,168,76,0.35) !important; transform: translateY(-1px) !important; }
+        .hero-cta:active { transform: scale(0.97) !important; box-shadow: none !important; }
         @keyframes scrollPulse { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:.8;transform:scaleY(1.2)} }
       `}</style>
     </div>
@@ -519,7 +523,7 @@ const s = {
     color: "var(--gold)",
     marginBottom: 40,
     direction: "rtl",
-    animation: "fadeUp 1s ease 0.2s both",
+    animation: "fadeUp 0.65s cubic-bezier(0.23,1,0.32,1) 0.15s both",
   },
   heroTitle: {
     fontFamily: "'Cormorant Garamond', serif",
@@ -529,7 +533,7 @@ const s = {
     lineHeight: 1.1,
     maxWidth: 780,
     marginBottom: 24,
-    animation: "fadeUp 1s ease 0.4s both",
+    animation: "fadeUp 0.65s cubic-bezier(0.23,1,0.32,1) 0.28s both",
   },
   heroSub: {
     fontFamily: "'Cormorant Garamond', serif",
@@ -538,7 +542,7 @@ const s = {
     maxWidth: 560,
     lineHeight: 1.7,
     marginBottom: 12,
-    animation: "fadeUp 1s ease 0.6s both",
+    animation: "fadeUp 0.65s cubic-bezier(0.23,1,0.32,1) 0.4s both",
   },
   heroAyah: {
     fontFamily: "'Amiri', serif",
@@ -546,7 +550,7 @@ const s = {
     color: "var(--gold-glow)",
     opacity: 0.75,
     marginBottom: 48,
-    animation: "fadeUp 1s ease 0.8s both",
+    animation: "fadeUp 0.65s cubic-bezier(0.23,1,0.32,1) 0.5s both",
   },
   heroCta: {
     display: "inline-flex",
@@ -561,8 +565,7 @@ const s = {
     border: "none",
     borderRadius: 10,
     cursor: "pointer",
-    transition: "all 0.3s ease",
-    animation: "fadeUp 1s ease 1s both",
+    animation: "fadeUp 0.65s cubic-bezier(0.23,1,0.32,1) 0.6s both",
   },
   scrollIndicator: {
     position: "absolute",
@@ -621,7 +624,6 @@ const s = {
     borderRadius: 16,
     padding: "36px 28px",
     textAlign: "left",
-    transition: "all 0.3s ease",
   },
   painIcon: { fontSize: 32, marginBottom: 16 },
   painTitle: {
@@ -742,7 +744,6 @@ const s = {
     padding: "44px 30px 36px",
     textAlign: "center",
     position: "relative",
-    transition: "all 0.35s ease",
   },
   featureNumber: {
     fontFamily: "'Cormorant Garamond', serif",

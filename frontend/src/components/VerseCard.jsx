@@ -199,7 +199,7 @@ export default function VerseCard({
             <span>Ibn Kathir</span>
             <span
               style={{
-                transition: "transform 0.2s",
+                transition: "transform 160ms cubic-bezier(0.23,1,0.32,1)",
                 display: "inline-block",
                 transform: tafsirOpen ? "rotate(90deg)" : "rotate(0deg)",
               }}
@@ -208,7 +208,7 @@ export default function VerseCard({
             </span>
           </button>
           {tafsirOpen && (
-            <div style={cardStyles.tafsirBody}>
+            <div style={cardStyles.tafsirBody} className="tafsir-body-open">
               <p style={cardStyles.tafsirText}>{tafsirTruncated}</p>
               {tafsirText.length > TAFSIR_TRUNCATE && (
                 <button
