@@ -337,22 +337,28 @@ export default function Outline() {
           {!loading && !result && !error && (
             <div style={styles.initialEmptyState}>
               <div style={styles.initialEmptyIcon}>
-                <svg
-                  width="48"
-                  height="48"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="var(--emerald)"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                  <line x1="9" y1="7" x2="15" y2="7" />
-                  <line x1="9" y1="11" x2="15" y2="11" />
-                  <line x1="9" y1="15" x2="13" y2="15" />
+                {/* Mihrab arch — where the Khateeb stands to deliver the Khutbah */}
+                <svg width="96" height="96" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+                  {/* Outer dashed gold circle */}
+                  <circle cx="48" cy="50" r="38" stroke="#c9a84c" strokeWidth="1.5" strokeDasharray="4 3"/>
+                  {/* Cardinal dots */}
+                  <circle cx="48" cy="13" r="2" fill="#c9a84c"/>
+                  <circle cx="85" cy="50" r="2" fill="rgba(201,168,76,0.5)"/>
+                  <circle cx="11" cy="50" r="2" fill="rgba(201,168,76,0.5)"/>
+                  <circle cx="48" cy="87" r="2" fill="rgba(201,168,76,0.5)"/>
+                  {/* Mihrab arch body */}
+                  <path d="M31 80 L31 50 Q31 24 48 22 Q65 24 65 50 L65 80 Z"
+                    stroke="#0c4b33" strokeWidth="2" fill="rgba(12,75,51,0.07)" strokeLinejoin="round"/>
+                  {/* Inner arch frame */}
+                  <path d="M36 80 L36 52 Q36 32 48 30 Q60 32 60 52 L60 80"
+                    stroke="rgba(201,168,76,0.3)" strokeWidth="1" fill="none"/>
+                  {/* Keystone 8-pointed star */}
+                  <rect x="43.5" y="27.5" width="9" height="9" rx="0.5" fill="#c9a84c" fillOpacity="0.9"/>
+                  <rect x="43.5" y="27.5" width="9" height="9" rx="0.5" fill="#c9a84c" fillOpacity="0.9" transform="rotate(45 48 32)"/>
+                  {/* Outline text lines inside arch */}
+                  <line x1="39" y1="55" x2="57" y2="55" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round"/>
+                  <line x1="37" y1="63" x2="59" y2="63" stroke="rgba(201,168,76,0.6)" strokeWidth="2" strokeLinecap="round"/>
+                  <line x1="40" y1="71" x2="56" y2="71" stroke="rgba(201,168,76,0.35)" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               </div>
               <p className="heading" style={styles.initialEmptyTitle}>
@@ -1003,10 +1009,8 @@ const styles = {
     marginTop: 8,
   },
   initialEmptyIcon: {
-    width: 80,
-    height: 80,
-    borderRadius: "50%",
-    background: "rgba(20, 105, 77, 0.08)",
+    width: 96,
+    height: 96,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

@@ -272,8 +272,9 @@ ol {
   animation: tafsirSlideIn 0.22s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
-button:active {
+button:not([disabled]):active {
   transform: scale(0.97);
+  transition: transform 80ms ease-out !important;
 }
 
 @keyframes spinDiamond {

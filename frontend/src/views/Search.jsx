@@ -316,19 +316,28 @@ export default function Search() {
         {!loading && results === null && !error && (
           <div style={styles.initialEmptyState}>
             <div style={styles.initialEmptyIcon}>
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--emerald)"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="M21 21l-4.35-4.35" />
+              {/* Astrolabe compass — "finding" in the corpus */}
+              <svg width="96" height="96" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+                {/* Handle */}
+                <line x1="67" y1="67" x2="82" y2="82" stroke="#c9a84c" strokeWidth="5" strokeLinecap="round"/>
+                {/* Outer dashed ring */}
+                <circle cx="48" cy="48" r="36" stroke="#c9a84c" strokeWidth="1.5" strokeDasharray="4 3"/>
+                {/* Inner ring */}
+                <circle cx="48" cy="48" r="27" stroke="rgba(201,168,76,0.3)" strokeWidth="1"/>
+                {/* Cardinal tick marks */}
+                <line x1="48" y1="13" x2="48" y2="20" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round"/>
+                <line x1="83" y1="48" x2="76" y2="48" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round"/>
+                <line x1="48" y1="83" x2="48" y2="76" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round"/>
+                <line x1="13" y1="48" x2="20" y2="48" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round"/>
+                {/* Diagonal ticks (softer) */}
+                <line x1="22.7" y1="22.7" x2="27.2" y2="27.2" stroke="rgba(201,168,76,0.45)" strokeWidth="1.5" strokeLinecap="round"/>
+                <line x1="73.3" y1="22.7" x2="68.8" y2="27.2" stroke="rgba(201,168,76,0.45)" strokeWidth="1.5" strokeLinecap="round"/>
+                <line x1="22.7" y1="73.3" x2="27.2" y2="68.8" stroke="rgba(201,168,76,0.45)" strokeWidth="1.5" strokeLinecap="round"/>
+                {/* 8-pointed star: two overlapping squares */}
+                <rect x="38" y="38" width="20" height="20" rx="1" fill="#0c4b33" fillOpacity="0.88"/>
+                <rect x="38" y="38" width="20" height="20" rx="1" fill="#0c4b33" fillOpacity="0.88" transform="rotate(45 48 48)"/>
+                {/* Center gold dot */}
+                <circle cx="48" cy="48" r="3.5" fill="#c9a84c"/>
               </svg>
             </div>
             <p className="heading" style={styles.initialEmptyTitle}>
@@ -585,10 +594,8 @@ const styles = {
     marginTop: 8,
   },
   initialEmptyIcon: {
-    width: 80,
-    height: 80,
-    borderRadius: "50%",
-    background: "rgba(20, 105, 77, 0.08)",
+    width: 96,
+    height: 96,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
