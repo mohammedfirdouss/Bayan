@@ -214,14 +214,55 @@ export default function Verify() {
         {!loading && !result && !error && (
           <div style={styles.initialEmptyState}>
             <div style={styles.initialEmptyIcon}>
-              <svg width="96" height="96" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+              <svg
+                width="96"
+                height="96"
+                viewBox="0 0 96 96"
+                fill="none"
+                aria-hidden="true"
+              >
                 {/* Outer dashed ring */}
-                <circle cx="48" cy="48" r="44" stroke="var(--gold)" strokeWidth="1" strokeDasharray="4 3" opacity="0.5" />
+                <circle
+                  cx="48"
+                  cy="48"
+                  r="44"
+                  stroke="var(--gold)"
+                  strokeWidth="1"
+                  strokeDasharray="4 3"
+                  opacity="0.5"
+                />
                 {/* Mid ring */}
-                <circle cx="48" cy="48" r="36" stroke="var(--emerald)" strokeWidth="0.75" opacity="0.3" />
+                <circle
+                  cx="48"
+                  cy="48"
+                  r="36"
+                  stroke="var(--emerald)"
+                  strokeWidth="0.75"
+                  opacity="0.3"
+                />
                 {/* 8-pointed star — two rotated squares */}
-                <rect x="32" y="32" width="32" height="32" fill="none" stroke="var(--gold)" strokeWidth="1.2" opacity="0.55" transform="rotate(0 48 48)" />
-                <rect x="32" y="32" width="32" height="32" fill="none" stroke="var(--gold)" strokeWidth="1.2" opacity="0.55" transform="rotate(45 48 48)" />
+                <rect
+                  x="32"
+                  y="32"
+                  width="32"
+                  height="32"
+                  fill="none"
+                  stroke="var(--gold)"
+                  strokeWidth="1.2"
+                  opacity="0.55"
+                  transform="rotate(0 48 48)"
+                />
+                <rect
+                  x="32"
+                  y="32"
+                  width="32"
+                  height="32"
+                  fill="none"
+                  stroke="var(--gold)"
+                  strokeWidth="1.2"
+                  opacity="0.55"
+                  transform="rotate(45 48 48)"
+                />
                 {/* Inner octagon fill */}
                 <polygon
                   points="48,35 57,39 61,48 57,57 48,61 39,57 35,48 39,39"
@@ -230,12 +271,42 @@ export default function Verify() {
                   strokeWidth="1"
                 />
                 {/* Checkmark */}
-                <path d="M42 48 L46 53 L56 43" stroke="var(--emerald)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M42 48 L46 53 L56 43"
+                  stroke="var(--emerald)"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
                 {/* Cardinal dots */}
-                <circle cx="48" cy="7"  r="2.5" fill="var(--gold)" opacity="0.45" />
-                <circle cx="89" cy="48" r="2.5" fill="var(--gold)" opacity="0.45" />
-                <circle cx="48" cy="89" r="2.5" fill="var(--gold)" opacity="0.45" />
-                <circle cx="7"  cy="48" r="2.5" fill="var(--gold)" opacity="0.45" />
+                <circle
+                  cx="48"
+                  cy="7"
+                  r="2.5"
+                  fill="var(--gold)"
+                  opacity="0.45"
+                />
+                <circle
+                  cx="89"
+                  cy="48"
+                  r="2.5"
+                  fill="var(--gold)"
+                  opacity="0.45"
+                />
+                <circle
+                  cx="48"
+                  cy="89"
+                  r="2.5"
+                  fill="var(--gold)"
+                  opacity="0.45"
+                />
+                <circle
+                  cx="7"
+                  cy="48"
+                  r="2.5"
+                  fill="var(--gold)"
+                  opacity="0.45"
+                />
               </svg>
             </div>
             <p className="heading" style={styles.initialEmptyTitle}>

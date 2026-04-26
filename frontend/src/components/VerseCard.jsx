@@ -42,7 +42,9 @@ function ArabicCopyButton({ text, containerStyle }) {
         }}
       >
         {copied ? (
-          <span style={{ fontSize: 12, fontWeight: 700, lineHeight: 1 }}>✓</span>
+          <span style={{ fontSize: 12, fontWeight: 700, lineHeight: 1 }}>
+            ✓
+          </span>
         ) : (
           <svg
             width="15"
@@ -174,8 +176,15 @@ export default function VerseCard({
       {/* Arabic text */}
       {text_arabic && (
         <div style={{ ...cardStyles.arabicBlock, position: "relative" }}>
-          <ArabicCopyButton text={text_arabic} containerStyle={{ position: "absolute", top: 10, right: 10 }} />
-          <p className="arabic" style={{ ...cardStyles.arabicText, paddingRight: 44 }} lang="ar">
+          <ArabicCopyButton
+            text={text_arabic}
+            containerStyle={{ position: "absolute", top: 10, right: 10 }}
+          />
+          <p
+            className="arabic"
+            style={{ ...cardStyles.arabicText, paddingRight: 44 }}
+            lang="ar"
+          >
             {text_arabic}
           </p>
         </div>

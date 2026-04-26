@@ -338,27 +338,90 @@ export default function Outline() {
             <div style={styles.initialEmptyState}>
               <div style={styles.initialEmptyIcon}>
                 {/* Mihrab arch — where the Khateeb stands to deliver the Khutbah */}
-                <svg width="96" height="96" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+                <svg
+                  width="96"
+                  height="96"
+                  viewBox="0 0 96 96"
+                  fill="none"
+                  aria-hidden="true"
+                >
                   {/* Outer dashed gold circle */}
-                  <circle cx="48" cy="50" r="38" stroke="#c9a84c" strokeWidth="1.5" strokeDasharray="4 3"/>
+                  <circle
+                    cx="48"
+                    cy="50"
+                    r="38"
+                    stroke="#c9a84c"
+                    strokeWidth="1.5"
+                    strokeDasharray="4 3"
+                  />
                   {/* Cardinal dots */}
-                  <circle cx="48" cy="13" r="2" fill="#c9a84c"/>
-                  <circle cx="85" cy="50" r="2" fill="rgba(201,168,76,0.5)"/>
-                  <circle cx="11" cy="50" r="2" fill="rgba(201,168,76,0.5)"/>
-                  <circle cx="48" cy="87" r="2" fill="rgba(201,168,76,0.5)"/>
+                  <circle cx="48" cy="13" r="2" fill="#c9a84c" />
+                  <circle cx="85" cy="50" r="2" fill="rgba(201,168,76,0.5)" />
+                  <circle cx="11" cy="50" r="2" fill="rgba(201,168,76,0.5)" />
+                  <circle cx="48" cy="87" r="2" fill="rgba(201,168,76,0.5)" />
                   {/* Mihrab arch body */}
-                  <path d="M31 80 L31 50 Q31 24 48 22 Q65 24 65 50 L65 80 Z"
-                    stroke="#0c4b33" strokeWidth="2" fill="rgba(12,75,51,0.07)" strokeLinejoin="round"/>
+                  <path
+                    d="M31 80 L31 50 Q31 24 48 22 Q65 24 65 50 L65 80 Z"
+                    stroke="#0c4b33"
+                    strokeWidth="2"
+                    fill="rgba(12,75,51,0.07)"
+                    strokeLinejoin="round"
+                  />
                   {/* Inner arch frame */}
-                  <path d="M36 80 L36 52 Q36 32 48 30 Q60 32 60 52 L60 80"
-                    stroke="rgba(201,168,76,0.3)" strokeWidth="1" fill="none"/>
+                  <path
+                    d="M36 80 L36 52 Q36 32 48 30 Q60 32 60 52 L60 80"
+                    stroke="rgba(201,168,76,0.3)"
+                    strokeWidth="1"
+                    fill="none"
+                  />
                   {/* Keystone 8-pointed star */}
-                  <rect x="43.5" y="27.5" width="9" height="9" rx="0.5" fill="#c9a84c" fillOpacity="0.9"/>
-                  <rect x="43.5" y="27.5" width="9" height="9" rx="0.5" fill="#c9a84c" fillOpacity="0.9" transform="rotate(45 48 32)"/>
+                  <rect
+                    x="43.5"
+                    y="27.5"
+                    width="9"
+                    height="9"
+                    rx="0.5"
+                    fill="#c9a84c"
+                    fillOpacity="0.9"
+                  />
+                  <rect
+                    x="43.5"
+                    y="27.5"
+                    width="9"
+                    height="9"
+                    rx="0.5"
+                    fill="#c9a84c"
+                    fillOpacity="0.9"
+                    transform="rotate(45 48 32)"
+                  />
                   {/* Outline text lines inside arch */}
-                  <line x1="39" y1="55" x2="57" y2="55" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round"/>
-                  <line x1="37" y1="63" x2="59" y2="63" stroke="rgba(201,168,76,0.6)" strokeWidth="2" strokeLinecap="round"/>
-                  <line x1="40" y1="71" x2="56" y2="71" stroke="rgba(201,168,76,0.35)" strokeWidth="2" strokeLinecap="round"/>
+                  <line
+                    x1="39"
+                    y1="55"
+                    x2="57"
+                    y2="55"
+                    stroke="#c9a84c"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <line
+                    x1="37"
+                    y1="63"
+                    x2="59"
+                    y2="63"
+                    stroke="rgba(201,168,76,0.6)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <line
+                    x1="40"
+                    y1="71"
+                    x2="56"
+                    y2="71"
+                    stroke="rgba(201,168,76,0.35)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
                 </svg>
               </div>
               <p className="heading" style={styles.initialEmptyTitle}>
@@ -391,7 +454,14 @@ function buildOutlineText(result) {
   if (result.opening_verse) {
     const v = normalizeVerse(result.opening_verse);
     lines.push("Opening Verse: " + (v.verse_key ?? ""));
-    if (v.translation) lines.push(String(typeof v.translation === "object" ? v.translation.text : v.translation));
+    if (v.translation)
+      lines.push(
+        String(
+          typeof v.translation === "object"
+            ? v.translation.text
+            : v.translation,
+        ),
+      );
     lines.push("");
   }
   if (result.sections) {
@@ -405,7 +475,9 @@ function buildOutlineText(result) {
       if (section.verses) {
         section.verses.forEach((v) => {
           const nv = normalizeVerse(v);
-          lines.push(`  [${nv.verse_key ?? ""}] ${typeof nv.translation === "object" ? nv.translation?.text : nv.translation ?? ""}`);
+          lines.push(
+            `  [${nv.verse_key ?? ""}] ${typeof nv.translation === "object" ? nv.translation?.text : (nv.translation ?? "")}`,
+          );
         });
       }
       lines.push("");
@@ -414,7 +486,14 @@ function buildOutlineText(result) {
   if (result.closing_dua) {
     const v = normalizeVerse(result.closing_dua);
     lines.push("Closing Du'ā': " + (v.verse_key ?? ""));
-    if (v.translation) lines.push(String(typeof v.translation === "object" ? v.translation.text : v.translation));
+    if (v.translation)
+      lines.push(
+        String(
+          typeof v.translation === "object"
+            ? v.translation.text
+            : v.translation,
+        ),
+      );
   }
   return lines.join("\n");
 }
@@ -436,7 +515,10 @@ function OutlineResult({ result }) {
   }
 
   return (
-    <div style={resultStyles.container} className="fade-in outline-result-print">
+    <div
+      style={resultStyles.container}
+      className="fade-in outline-result-print"
+    >
       {/* Warning banner */}
       {result.warning && (
         <div style={resultStyles.warningBanner} role="alert">

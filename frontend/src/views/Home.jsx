@@ -29,7 +29,9 @@ export default function Home({ onNavigate }) {
         <div style={{ ...s.geoBg, opacity: 0.08 }} />
         <div style={s.heroGlow} />
         <div style={s.heroContent}>
-          <p style={s.bismillah} className="bismillah-text">بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ</p>
+          <p style={s.bismillah} className="bismillah-text">
+            بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ
+          </p>
           <h1 style={s.heroTitle} className="hero-title">
             Prepare Your Khutbah
             <br />
@@ -48,7 +50,11 @@ export default function Home({ onNavigate }) {
           <p style={s.heroAyah}>
             "...a clarification of all things" — Quran 16:89
           </p>
-          <button onClick={() => onNavigate("search")} style={s.heroCta} className="hero-cta">
+          <button
+            onClick={() => onNavigate("search")}
+            style={s.heroCta}
+            className="hero-cta"
+          >
             Start Searching
             <svg
               width="18"

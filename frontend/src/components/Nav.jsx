@@ -55,7 +55,10 @@ export default function Nav({ active, onNavigate }) {
               style={{
                 ...styles.tabUnderline,
                 opacity: active === tab.id ? 1 : 0,
-                transform: active === tab.id ? "translateX(-50%) scaleX(1)" : "translateX(-50%) scaleX(0)",
+                transform:
+                  active === tab.id
+                    ? "translateX(-50%) scaleX(1)"
+                    : "translateX(-50%) scaleX(0)",
               }}
               aria-hidden="true"
             />
@@ -135,7 +138,8 @@ const styles = {
     height: 2,
     background: "var(--gold)",
     borderRadius: 2,
-    transition: "opacity 180ms ease-out, transform 180ms cubic-bezier(0.23,1,0.32,1)",
+    transition:
+      "opacity 180ms ease-out, transform 180ms cubic-bezier(0.23,1,0.32,1)",
     transformOrigin: "center",
   },
 };
