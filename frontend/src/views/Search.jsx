@@ -93,8 +93,11 @@ export default function Search() {
         include_tafsir: includeTafsir,
         tafsir_slug: tafsirSlug,
       };
-      if (revelationPlace) body.revelation_place = revelationPlace;
-      if (juzNumber) body.juz_number = parseInt(juzNumber, 10);
+
+      const filters = {};
+      if (revelationPlace) filters.revelation_place = revelationPlace;
+      if (juzNumber) filters.juz = parseInt(juzNumber, 10);
+      if (Object.keys(filters).length > 0) body.filters = filters;
 
       const data = await apiSearch(body);
       const ms = Math.round(performance.now() - startRef.current);

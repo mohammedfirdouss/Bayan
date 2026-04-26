@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field
 
@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 class SearchFilters(BaseModel):
     topic: str | None = None
     revelation_place: Literal["makkah", "madinah"] | None = None
-    juz: int | None = Field(None, ge=1, le=30)
+    juz: Annotated[int | None, Field(ge=1, le=30)] = None
 
 
 class SearchRequest(BaseModel):
