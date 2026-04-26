@@ -212,6 +212,40 @@ ol {
   .form-card {
     padding: 20px !important;
   }
+
+  /* Hero text overflow fix */
+  .hero-title {
+    font-size: 28px !important;
+  }
+  .hero-subtitle {
+    font-size: 15px !important;
+  }
+  .bismillah-text {
+    font-size: 24px !important;
+  }
+}
+
+/* ── Outline print styles ── */
+@media print {
+  .outline-print-hide {
+    display: none !important;
+  }
+  .outline-print-only {
+    display: block !important;
+  }
+  nav,
+  .nav-bar,
+  .outline-form-section {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
+  .outline-result-print {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
 }
 
 #root {

@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { verify as apiVerify } from "../api.js";
 import VerseCard from "../components/VerseCard.jsx";
 import Ornament from "../components/Ornament.jsx";
+import ErrorCard from "../components/ErrorCard.jsx";
+
+const LOADING_MESSAGES = [
+  "Searching corpus…",
+  "Comparing verse patterns…",
+  "Analysing context…",
+  "Verifying source…",
+];
 
 export default function Verify() {
   const [text, setText] = useState("");
@@ -9,6 +17,18 @@ export default function Verify() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+  const [loadingMsgIdx, setLoadingMsgIdx] = useState(0);
+
+  useEffect(() => {
+    if (!loading) {
+      setLoadingMsgIdx(0);
+      return;
+    }
+    const interval = setInterval(() => {
+      setLoadingMsgIdx((prev) => (prev + 1) % LOADING_MESSAGES.length);
+    }, 1500);
+    return () => clearInterval(interval);
+  }, [loading]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -120,25 +140,18 @@ export default function Verify() {
           </button>
         </form>
 
-        {/* Error */}
-        {error && (
-          <div style={styles.errorCard} role="alert">
-            <strong
-              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13 }}
-            >
-              Error
-            </strong>
-            <p
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 16,
-                marginTop: 4,
-              }}
-            >
-              {error}
+        {/* Loading status messages */}
+        {loading && (
+          <div style={styles.loadingStatus} role="status" aria-live="polite">
+            <div style={styles.loadingSpinner} aria-hidden="true" />
+            <p style={styles.loadingMessage}>
+              {LOADING_MESSAGES[loadingMsgIdx]}
             </p>
           </div>
         )}
+
+        {/* Error */}
+        {error && <ErrorCard message={error} />}
 
         {/* Result panel */}
         {result && statusInfo && (
@@ -199,10 +212,29 @@ export default function Verify() {
 
         {/* Idle state */}
         {!loading && !result && !error && (
-          <div style={styles.idleState}>
-            <Ornament />
-            <p className="heading" style={styles.idleText}>
-              Enter a verse or citation above to verify its accuracy
+          <div style={styles.initialEmptyState}>
+            <div style={styles.initialEmptyIcon}>
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--emerald)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="M9 12l2 2 4-4" />
+              </svg>
+            </div>
+            <p className="heading" style={styles.initialEmptyTitle}>
+              Paste any text to verify its Quranic source
+            </p>
+            <p style={styles.initialEmptyHint}>
+              Enter Arabic or English text to check if it matches a verse in the
+              Quran corpus
             </p>
           </div>
         )}
@@ -449,5 +481,63 @@ const styles = {
     fontStyle: "italic",
     fontSize: 20,
     color: "var(--ink-muted)",
+  },
+  loadingStatus: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 16,
+    padding: "32px 0",
+    marginBottom: 8,
+  },
+  loadingSpinner: {
+    width: 40,
+    height: 40,
+    background: "var(--gold)",
+    clipPath:
+      "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
+    animation: "spinDiamond 1.4s linear infinite",
+  },
+  loadingMessage: {
+    fontFamily: "'Cormorant Garamond', serif",
+    fontStyle: "italic",
+    fontSize: 18,
+    color: "var(--ink-muted)",
+  },
+  initialEmptyState: {
+    background: "var(--parchment)",
+    border: "1px solid var(--gold)",
+    borderRadius: 20,
+    padding: "60px 40px",
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 16,
+    marginTop: 8,
+  },
+  initialEmptyIcon: {
+    width: 80,
+    height: 80,
+    borderRadius: "50%",
+    background: "rgba(20, 105, 77, 0.08)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 8,
+  },
+  initialEmptyTitle: {
+    fontFamily: "'Cormorant Garamond', serif",
+    fontSize: 24,
+    fontWeight: 600,
+    color: "var(--emerald-deep)",
+  },
+  initialEmptyHint: {
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: 15,
+    color: "var(--ink-muted)",
+    maxWidth: 380,
+    lineHeight: 1.6,
+    margin: "0 auto",
   },
 };

@@ -29,8 +29,8 @@ export default function Home({ onNavigate }) {
         <div style={{ ...s.geoBg, opacity: 0.08 }} />
         <div style={s.heroGlow} />
         <div style={s.heroContent}>
-          <p style={s.bismillah}>بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ</p>
-          <h1 style={s.heroTitle}>
+          <p style={s.bismillah} className="bismillah-text">بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ</p>
+          <h1 style={s.heroTitle} className="hero-title">
             Prepare Your Khutbah
             <br />
             with{" "}
@@ -38,7 +38,7 @@ export default function Home({ onNavigate }) {
               Certainty
             </em>
           </h1>
-          <p style={s.heroSub}>
+          <p style={s.heroSub} className="hero-subtitle">
             The AI-powered preparation companion for Khateebs.
             <br />
             Verify citations. Discover ayat by meaning. Structure your message.

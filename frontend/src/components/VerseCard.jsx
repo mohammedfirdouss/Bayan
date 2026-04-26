@@ -2,6 +2,90 @@ import { useState } from "react";
 
 const TAFSIR_TRUNCATE = 300;
 
+function ArabicCopyButton({ text, containerStyle }) {
+  const [copied, setCopied] = useState(false);
+
+  function handleCopy() {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }
+
+  return (
+    <div style={{ position: "relative", ...containerStyle }}>
+      <button
+        onClick={handleCopy}
+        title="Copy Arabic text"
+        aria-label="Copy Arabic text"
+        style={{
+          width: 32,
+          height: 32,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "var(--parchment)",
+          border: "1px solid var(--gold)",
+          borderRadius: 8,
+          cursor: "pointer",
+          color: "var(--emerald)",
+          padding: 0,
+          transition: "background 0.2s ease, color 0.2s ease",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = "var(--gold)";
+          e.currentTarget.style.color = "var(--emerald-deep)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = "var(--parchment)";
+          e.currentTarget.style.color = "var(--emerald)";
+        }}
+      >
+        {copied ? (
+          <span style={{ fontSize: 12, fontWeight: 700, lineHeight: 1 }}>✓</span>
+        ) : (
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
+        )}
+      </button>
+      {copied && (
+        <div
+          style={{
+            position: "absolute",
+            top: -32,
+            right: 0,
+            background: "var(--emerald-deep)",
+            color: "var(--gold-glow)",
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 11,
+            fontWeight: 600,
+            padding: "4px 10px",
+            borderRadius: 6,
+            whiteSpace: "nowrap",
+            pointerEvents: "none",
+            zIndex: 2,
+          }}
+          aria-live="polite"
+        >
+          ✓ Copied
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function VerseCard({
   verse_key,
   surah_name,
@@ -89,8 +173,9 @@ export default function VerseCard({
 
       {/* Arabic text */}
       {text_arabic && (
-        <div style={cardStyles.arabicBlock}>
-          <p className="arabic" style={cardStyles.arabicText} lang="ar">
+        <div style={{ ...cardStyles.arabicBlock, position: "relative" }}>
+          <ArabicCopyButton text={text_arabic} containerStyle={{ position: "absolute", top: 10, right: 10 }} />
+          <p className="arabic" style={{ ...cardStyles.arabicText, paddingRight: 44 }} lang="ar">
             {text_arabic}
           </p>
         </div>

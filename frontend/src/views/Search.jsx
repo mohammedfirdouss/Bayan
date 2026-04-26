@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { search as apiSearch } from "../api.js";
 import VerseCard from "../components/VerseCard.jsx";
 import Ornament from "../components/Ornament.jsx";
+import ErrorCard from "../components/ErrorCard.jsx";
 
 function SkeletonCard() {
   return (
@@ -268,24 +269,7 @@ export default function Search() {
         </form>
 
         {/* Error */}
-        {error && (
-          <div style={styles.errorCard} role="alert">
-            <strong
-              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13 }}
-            >
-              Error
-            </strong>
-            <p
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 16,
-                marginTop: 4,
-              }}
-            >
-              {error}
-            </p>
-          </div>
-        )}
+        {error && <ErrorCard message={error} />}
 
         {/* Loading skeletons */}
         {loading && (
@@ -330,10 +314,28 @@ export default function Search() {
 
         {/* Initial empty state */}
         {!loading && results === null && !error && (
-          <div style={styles.emptyState}>
-            <Ornament />
-            <p className="heading" style={styles.emptyText}>
-              Begin your search above
+          <div style={styles.initialEmptyState}>
+            <div style={styles.initialEmptyIcon}>
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--emerald)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
+            </div>
+            <p className="heading" style={styles.initialEmptyTitle}>
+              Search the Quran by meaning
+            </p>
+            <p style={styles.initialEmptyHint}>
+              Try "patience during hardship" or "gratitude"
             </p>
           </div>
         )}
@@ -568,6 +570,39 @@ const styles = {
     fontFamily: "'Cormorant Garamond', serif",
     fontStyle: "italic",
     fontSize: 22,
+    color: "var(--ink-muted)",
+  },
+  initialEmptyState: {
+    background: "var(--parchment)",
+    border: "1px solid var(--gold)",
+    borderRadius: 20,
+    padding: "60px 40px",
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 16,
+    marginTop: 8,
+  },
+  initialEmptyIcon: {
+    width: 80,
+    height: 80,
+    borderRadius: "50%",
+    background: "rgba(20, 105, 77, 0.08)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 8,
+  },
+  initialEmptyTitle: {
+    fontFamily: "'Cormorant Garamond', serif",
+    fontSize: 24,
+    fontWeight: 600,
+    color: "var(--emerald-deep)",
+  },
+  initialEmptyHint: {
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: 15,
     color: "var(--ink-muted)",
   },
 };
