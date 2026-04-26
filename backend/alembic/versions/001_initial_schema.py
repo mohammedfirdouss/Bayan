@@ -177,8 +177,7 @@ def upgrade() -> None:
         )
     """)
 
-    # pgvector ANN indexes for `vector` are limited to 2,000 dimensions.
-    # We use 3,072-dim embeddings, so keep exact search and index filter columns.
+    # pgvector ANN indexes added in migration 002 after switching to 768d embeddings.
     op.execute("""
         CREATE INDEX idx_verse_embeddings_lookup
             ON verse_embeddings (embedding_type, model)

@@ -1,24 +1,24 @@
-from openai import AsyncOpenAI
+from google import genai
 
 from app.config import settings
 
-MODEL = "text-embedding-3-large"
-DIMENSIONS = 3072
+MODEL = "gemini-embedding-001"
+DIMENSIONS = 768
 
-_client: AsyncOpenAI | None = None
+_client: genai.Client | None = None
 
 
-def _get_client() -> AsyncOpenAI:
+def _get_client() -> genai.Client:
     global _client
     if _client is None:
-        _client = AsyncOpenAI(api_key=settings.openai_api_key)
+        _client = genai.Client(api_key=settings.gemini_api_key)
     return _client
 
 
 async def get_embedding(text: str) -> list[float]:
-    response = await _get_client().embeddings.create(
-        input=[text],
+    response = await _get_client().aio.models.embed_content(
         model=MODEL,
-        dimensions=DIMENSIONS,
+        contents=text,
+        config={"output_dimensionality": DIMENSIONS},
     )
-    return response.data[0].embedding
+    return (response.embeddings or [])[0].values or []
