@@ -1,69 +1,89 @@
-import { useState, useRef } from 'react'
-import { search as apiSearch } from '../api.js'
-import VerseCard from '../components/VerseCard.jsx'
-import Ornament from '../components/Ornament.jsx'
+import { useState, useRef } from "react";
+import { search as apiSearch } from "../api.js";
+import VerseCard from "../components/VerseCard.jsx";
+import Ornament from "../components/Ornament.jsx";
 
 function SkeletonCard() {
   return (
     <div style={skeletonStyles.card}>
       <div style={skeletonStyles.topRow}>
-        <div className="skeleton" style={{ width: 80, height: 28, borderRadius: 20 }} />
+        <div
+          className="skeleton"
+          style={{ width: 80, height: 28, borderRadius: 20 }}
+        />
         <div className="skeleton" style={{ width: 100, height: 20 }} />
-        <div className="skeleton" style={{ width: 52, height: 24, borderRadius: 20, marginLeft: 'auto' }} />
+        <div
+          className="skeleton"
+          style={{
+            width: 52,
+            height: 24,
+            borderRadius: 20,
+            marginLeft: "auto",
+          }}
+        />
       </div>
       <div className="skeleton" style={{ height: 80, borderRadius: 12 }} />
-      <div className="skeleton" style={{ height: 18, width: '90%' }} />
-      <div className="skeleton" style={{ height: 18, width: '70%' }} />
-      <div style={{ display: 'flex', gap: 6 }}>
-        <div className="skeleton" style={{ width: 60, height: 24, borderRadius: 20 }} />
-        <div className="skeleton" style={{ width: 80, height: 24, borderRadius: 20 }} />
-        <div className="skeleton" style={{ width: 50, height: 24, borderRadius: 20 }} />
+      <div className="skeleton" style={{ height: 18, width: "90%" }} />
+      <div className="skeleton" style={{ height: 18, width: "70%" }} />
+      <div style={{ display: "flex", gap: 6 }}>
+        <div
+          className="skeleton"
+          style={{ width: 60, height: 24, borderRadius: 20 }}
+        />
+        <div
+          className="skeleton"
+          style={{ width: 80, height: 24, borderRadius: 20 }}
+        />
+        <div
+          className="skeleton"
+          style={{ width: 50, height: 24, borderRadius: 20 }}
+        />
       </div>
     </div>
-  )
+  );
 }
 
 const skeletonStyles = {
   card: {
-    background: 'var(--warm-white)',
-    border: '1px solid rgba(201, 168, 76, 0.15)',
+    background: "var(--warm-white)",
+    border: "1px solid rgba(201, 168, 76, 0.15)",
     borderRadius: 20,
-    padding: '24px 28px',
-    display: 'flex',
-    flexDirection: 'column',
+    padding: "24px 28px",
+    display: "flex",
+    flexDirection: "column",
     gap: 16,
   },
   topRow: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     gap: 10,
   },
-}
+};
 
 export default function Search() {
-  const [query, setQuery] = useState('')
-  const [topK, setTopK] = useState(10)
-  const [includeTafsir, setIncludeTafsir] = useState(true)
-  const [tafsirSlug, setTafsirSlug] = useState('ibn-kathir')
-  const [filtersOpen, setFiltersOpen] = useState(false)
-  const [revelationPlace, setRevelationPlace] = useState('')
-  const [juzNumber, setJuzNumber] = useState('')
+  const [query, setQuery] = useState("");
+  const [topK, setTopK] = useState(10);
+  const [includeTafsir, setIncludeTafsir] = useState(true);
+  const [tafsirSlug, setTafsirSlug] = useState("ibn-kathir");
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [revelationPlace, setRevelationPlace] = useState("");
+  const [juzNumber, setJuzNumber] = useState("");
 
-  const [results, setResults] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [elapsed, setElapsed] = useState(null)
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [elapsed, setElapsed] = useState(null);
 
-  const startRef = useRef(null)
+  const startRef = useRef(null);
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    if (!query.trim()) return
+    e.preventDefault();
+    if (!query.trim()) return;
 
-    setLoading(true)
-    setError(null)
-    setResults(null)
-    startRef.current = performance.now()
+    setLoading(true);
+    setError(null);
+    setResults(null);
+    startRef.current = performance.now();
 
     try {
       const body = {
@@ -71,18 +91,20 @@ export default function Search() {
         top_k: topK,
         include_tafsir: includeTafsir,
         tafsir_slug: tafsirSlug,
-      }
-      if (revelationPlace) body.revelation_place = revelationPlace
-      if (juzNumber) body.juz_number = parseInt(juzNumber, 10)
+      };
+      if (revelationPlace) body.revelation_place = revelationPlace;
+      if (juzNumber) body.juz_number = parseInt(juzNumber, 10);
 
-      const data = await apiSearch(body)
-      const ms = Math.round(performance.now() - startRef.current)
-      setElapsed(ms)
-      setResults(Array.isArray(data) ? data : data.results ?? data.verses ?? [])
+      const data = await apiSearch(body);
+      const ms = Math.round(performance.now() - startRef.current);
+      setElapsed(ms);
+      setResults(
+        Array.isArray(data) ? data : (data.results ?? data.verses ?? []),
+      );
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -101,7 +123,12 @@ export default function Search() {
         </header>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} style={styles.form} className="form-card" noValidate>
+        <form
+          onSubmit={handleSubmit}
+          style={styles.form}
+          className="form-card"
+          noValidate
+        >
           <textarea
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -110,7 +137,8 @@ export default function Search() {
             rows={4}
             aria-label="Search query"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) handleSubmit(e)
+              if (e.key === "Enter" && (e.metaKey || e.ctrlKey))
+                handleSubmit(e);
             }}
           />
 
@@ -118,7 +146,8 @@ export default function Search() {
           <div style={styles.controlsRow}>
             <div style={styles.controlGroup}>
               <label htmlFor="top-k-slider" style={styles.controlLabel}>
-                Results: <strong style={{ color: 'var(--emerald-deep)' }}>{topK}</strong>
+                Results:{" "}
+                <strong style={{ color: "var(--emerald-deep)" }}>{topK}</strong>
               </label>
               <input
                 id="top-k-slider"
@@ -139,9 +168,7 @@ export default function Search() {
             </div>
 
             <div style={styles.controlGroup}>
-              <label style={styles.controlLabel}>
-                Tafsir
-              </label>
+              <label style={styles.controlLabel}>Tafsir</label>
               <button
                 type="button"
                 onClick={() => setIncludeTafsir((v) => !v)}
@@ -178,7 +205,7 @@ export default function Search() {
               style={styles.filtersToggle}
               aria-expanded={filtersOpen}
             >
-              {filtersOpen ? '▲' : '▼'} Optional filters
+              {filtersOpen ? "▲" : "▼"} Optional filters
             </button>
           </div>
 
@@ -186,8 +213,12 @@ export default function Search() {
             <div style={styles.filtersPanel}>
               <div style={styles.filterGroup}>
                 <span style={styles.controlLabel}>Revelation Place</span>
-                <div style={styles.radioGroup} role="radiogroup" aria-label="Revelation place">
-                  {['', 'makkah', 'madinah'].map((val) => (
+                <div
+                  style={styles.radioGroup}
+                  role="radiogroup"
+                  aria-label="Revelation place"
+                >
+                  {["", "makkah", "madinah"].map((val) => (
                     <label key={val} style={styles.radioLabel}>
                       <input
                         type="radio"
@@ -197,7 +228,9 @@ export default function Search() {
                         onChange={() => setRevelationPlace(val)}
                         style={styles.radioInput}
                       />
-                      {val === '' ? 'Any' : val.charAt(0).toUpperCase() + val.slice(1)}
+                      {val === ""
+                        ? "Any"
+                        : val.charAt(0).toUpperCase() + val.slice(1)}
                     </label>
                   ))}
                 </div>
@@ -227,20 +260,28 @@ export default function Search() {
             style={{
               ...styles.cta,
               opacity: loading || !query.trim() ? 0.6 : 1,
-              cursor: loading || !query.trim() ? 'not-allowed' : 'pointer',
+              cursor: loading || !query.trim() ? "not-allowed" : "pointer",
             }}
           >
-            {loading ? 'Searching…' : 'Search Corpus'}
+            {loading ? "Searching…" : "Search Corpus"}
           </button>
         </form>
 
         {/* Error */}
         {error && (
           <div style={styles.errorCard} role="alert">
-            <strong style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13 }}>
+            <strong
+              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13 }}
+            >
               Error
             </strong>
-            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, marginTop: 4 }}>
+            <p
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 16,
+                marginTop: 4,
+              }}
+            >
               {error}
             </p>
           </div>
@@ -262,7 +303,7 @@ export default function Search() {
               <>
                 <div style={styles.resultsHeader}>
                   <span style={styles.resultsMeta}>
-                    {results.length} result{results.length !== 1 ? 's' : ''}
+                    {results.length} result{results.length !== 1 ? "s" : ""}
                     {elapsed != null && ` · ${elapsed}ms`}
                   </span>
                 </div>
@@ -298,99 +339,99 @@ export default function Search() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function getToggleStyle(on) {
   return {
-    position: 'relative',
+    position: "relative",
     width: 44,
     height: 24,
     borderRadius: 12,
-    background: on ? 'var(--emerald)' : 'var(--parchment-dark)',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'background 0.2s ease',
+    background: on ? "var(--emerald)" : "var(--parchment-dark)",
+    border: "none",
+    cursor: "pointer",
+    transition: "background 0.2s ease",
     flexShrink: 0,
     padding: 0,
-  }
+  };
 }
 
 function getToggleKnobStyle(on) {
   return {
-    position: 'absolute',
+    position: "absolute",
     top: 3,
     left: on ? 23 : 3,
     width: 18,
     height: 18,
-    borderRadius: '50%',
-    background: 'white',
-    transition: 'left 0.2s ease',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
-    display: 'block',
-  }
+    borderRadius: "50%",
+    background: "white",
+    transition: "left 0.2s ease",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+    display: "block",
+  };
 }
 
 const styles = {
   page: {
-    minHeight: 'calc(100vh - 64px)',
-    padding: '48px 24px 80px',
+    minHeight: "calc(100vh - 64px)",
+    padding: "48px 24px 80px",
   },
   inner: {
     maxWidth: 800,
-    margin: '0 auto',
+    margin: "0 auto",
   },
   header: {
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 40,
   },
   title: {
     fontFamily: "'Cormorant Garamond', serif",
     fontSize: 48,
     fontWeight: 600,
-    color: 'var(--emerald-deep)',
+    color: "var(--emerald-deep)",
     lineHeight: 1.1,
   },
   subtitle: {
     marginTop: 10,
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 15,
-    color: 'var(--ink-muted)',
+    color: "var(--ink-muted)",
   },
   form: {
-    background: 'var(--warm-white)',
+    background: "var(--warm-white)",
     borderRadius: 20,
-    border: '1px solid rgba(201, 168, 76, 0.2)',
-    padding: '28px',
-    display: 'flex',
-    flexDirection: 'column',
+    border: "1px solid rgba(201, 168, 76, 0.2)",
+    padding: "28px",
+    display: "flex",
+    flexDirection: "column",
     gap: 20,
     marginBottom: 32,
-    boxShadow: '0 2px 20px rgba(12, 75, 51, 0.06)',
+    boxShadow: "0 2px 20px rgba(12, 75, 51, 0.06)",
   },
   textarea: {
-    width: '100%',
-    padding: '16px 18px',
+    width: "100%",
+    padding: "16px 18px",
     borderRadius: 12,
-    border: '1px solid rgba(201, 168, 76, 0.3)',
-    background: 'var(--cream)',
+    border: "1px solid rgba(201, 168, 76, 0.3)",
+    background: "var(--cream)",
     fontFamily: "'Cormorant Garamond', serif",
     fontSize: 20,
-    color: 'var(--ink)',
+    color: "var(--ink)",
     lineHeight: 1.6,
-    resize: 'vertical',
-    outline: 'none',
-    transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+    resize: "vertical",
+    outline: "none",
+    transition: "border-color 0.2s ease, box-shadow 0.2s ease",
   },
   controlsRow: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
     gap: 24,
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   controlGroup: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     gap: 6,
     minWidth: 140,
   },
@@ -398,135 +439,135 @@ const styles = {
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 12,
     fontWeight: 500,
-    color: 'var(--ink-muted)',
-    letterSpacing: '0.05em',
-    textTransform: 'uppercase',
+    color: "var(--ink-muted)",
+    letterSpacing: "0.05em",
+    textTransform: "uppercase",
   },
   slider: {
-    width: '100%',
-    accentColor: 'var(--emerald)',
-    cursor: 'pointer',
+    width: "100%",
+    accentColor: "var(--emerald)",
+    cursor: "pointer",
   },
   sliderLabels: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: "flex",
+    justifyContent: "space-between",
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 11,
-    color: 'var(--ink-muted)',
+    color: "var(--ink-muted)",
   },
   select: {
-    padding: '8px 12px',
+    padding: "8px 12px",
     borderRadius: 8,
-    border: '1px solid rgba(201, 168, 76, 0.3)',
-    background: 'var(--cream)',
+    border: "1px solid rgba(201, 168, 76, 0.3)",
+    background: "var(--cream)",
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 14,
-    color: 'var(--ink)',
-    outline: 'none',
-    cursor: 'pointer',
+    color: "var(--ink)",
+    outline: "none",
+    cursor: "pointer",
   },
   filtersToggleRow: {
-    borderTop: '1px solid rgba(201, 168, 76, 0.12)',
+    borderTop: "1px solid rgba(201, 168, 76, 0.12)",
     paddingTop: 12,
   },
   filtersToggle: {
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
+    background: "none",
+    border: "none",
+    cursor: "pointer",
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 13,
-    color: 'var(--ink-muted)',
+    color: "var(--ink-muted)",
     fontWeight: 500,
     padding: 0,
-    letterSpacing: '0.02em',
+    letterSpacing: "0.02em",
   },
   filtersPanel: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
     gap: 24,
-    padding: '16px 0 0',
-    borderTop: '1px solid rgba(201, 168, 76, 0.1)',
+    padding: "16px 0 0",
+    borderTop: "1px solid rgba(201, 168, 76, 0.1)",
   },
   filterGroup: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     gap: 8,
   },
   radioGroup: {
-    display: 'flex',
+    display: "flex",
     gap: 16,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   radioLabel: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     gap: 6,
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 14,
-    color: 'var(--ink-soft)',
-    cursor: 'pointer',
+    color: "var(--ink-soft)",
+    cursor: "pointer",
   },
   radioInput: {
-    accentColor: 'var(--emerald)',
-    cursor: 'pointer',
+    accentColor: "var(--emerald)",
+    cursor: "pointer",
   },
   numberInput: {
     width: 80,
-    padding: '8px 12px',
+    padding: "8px 12px",
     borderRadius: 8,
-    border: '1px solid rgba(201, 168, 76, 0.3)',
-    background: 'var(--cream)',
+    border: "1px solid rgba(201, 168, 76, 0.3)",
+    background: "var(--cream)",
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 14,
-    color: 'var(--ink)',
-    outline: 'none',
+    color: "var(--ink)",
+    outline: "none",
   },
   cta: {
-    width: '100%',
+    width: "100%",
     height: 52,
     borderRadius: 12,
-    background: 'var(--emerald-deep)',
-    color: 'var(--parchment)',
+    background: "var(--emerald-deep)",
+    color: "var(--parchment)",
     fontFamily: "'DM Sans', sans-serif",
     fontWeight: 600,
     fontSize: 16,
-    letterSpacing: '0.04em',
-    border: 'none',
-    transition: 'background 0.2s ease, box-shadow 0.2s ease',
-    boxShadow: '0 4px 16px rgba(12, 75, 51, 0.2)',
+    letterSpacing: "0.04em",
+    border: "none",
+    transition: "background 0.2s ease, box-shadow 0.2s ease",
+    boxShadow: "0 4px 16px rgba(12, 75, 51, 0.2)",
   },
   errorCard: {
-    background: 'var(--parchment)',
-    border: '1px solid rgba(180, 60, 60, 0.3)',
+    background: "var(--parchment)",
+    border: "1px solid rgba(180, 60, 60, 0.3)",
     borderRadius: 12,
-    padding: '16px 20px',
+    padding: "16px 20px",
     marginBottom: 24,
-    color: '#7B1818',
+    color: "#7B1818",
   },
   resultsHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 16,
   },
   resultsMeta: {
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 13,
-    color: 'var(--ink-muted)',
+    color: "var(--ink-muted)",
   },
   results: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     gap: 16,
   },
   emptyState: {
-    textAlign: 'center',
-    padding: '40px 0',
+    textAlign: "center",
+    padding: "40px 0",
   },
   emptyText: {
     fontFamily: "'Cormorant Garamond', serif",
-    fontStyle: 'italic',
+    fontStyle: "italic",
     fontSize: 22,
-    color: 'var(--ink-muted)',
+    color: "var(--ink-muted)",
   },
-}
+};

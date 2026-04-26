@@ -1,24 +1,24 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap");
 
 :root {
-  --emerald-deep: #0C4B33;
-  --emerald: #14694D;
-  --emerald-light: #1A8A65;
-  --gold: #C9A84C;
-  --gold-light: #DFC06A;
-  --gold-glow: #E8D08C;
-  --parchment: #F7F2E8;
-  --parchment-dark: #EDE5D4;
-  --ink: #1A1A17;
-  --ink-soft: #3D3B35;
-  --ink-muted: #6B6860;
-  --cream: #FFFDF7;
-  --warm-white: #FEFCF6;
+  --emerald-deep: #0c4b33;
+  --emerald: #14694d;
+  --emerald-light: #1a8a65;
+  --gold: #c9a84c;
+  --gold-light: #dfc06a;
+  --gold-glow: #e8d08c;
+  --parchment: #f7f2e8;
+  --parchment-dark: #ede5d4;
+  --ink: #1a1a17;
+  --ink-soft: #3d3b35;
+  --ink-muted: #6b6860;
+  --cream: #fffdf7;
+  --warm-white: #fefcf6;
 }
 
-
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -30,7 +30,7 @@ html {
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   background: var(--cream);
   color: var(--ink);
   overflow-x: hidden;
@@ -39,7 +39,8 @@ body {
   min-height: 100vh;
 }
 
-img, svg {
+img,
+svg {
   display: block;
   max-width: 100%;
 }
@@ -51,7 +52,9 @@ button {
   background: none;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: inherit;
 }
 
@@ -60,18 +63,19 @@ a {
   color: inherit;
 }
 
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
 .arabic {
-  font-family: 'Amiri', serif;
+  font-family: "Amiri", serif;
   direction: rtl;
   unicode-bidi: embed;
 }
 
 .heading {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Cormorant Garamond", serif;
 }
 
 .geo-bg {
@@ -80,8 +84,12 @@ ul, ol {
 }
 
 @keyframes shimmer {
-  0% { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
 }
 
 .skeleton {
@@ -115,7 +123,18 @@ ul, ol {
 .islamic-star {
   display: inline-block;
   background: var(--gold);
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
   flex-shrink: 0;
 }
 
@@ -133,7 +152,6 @@ ul, ol {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
-
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -163,24 +181,38 @@ ul, ol {
   color: var(--ink);
 }
 
-
 @media (max-width: 640px) {
   /* Nav */
-  .nav-bar      { padding: 0 16px !important; }
-  .nav-tabs     { gap: 0 !important; }
-  .nav-tab      { padding: 8px 10px !important; font-size: 13px !important; }
-  .nav-brand-name { font-size: 20px !important; }
+  .nav-bar {
+    padding: 0 16px !important;
+  }
+  .nav-tabs {
+    gap: 0 !important;
+  }
+  .nav-tab {
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+  }
+  .nav-brand-name {
+    font-size: 20px !important;
+  }
 
   /* Page headings */
-  .page-title   { font-size: 32px !important; line-height: 1.15 !important; }
+  .page-title {
+    font-size: 32px !important;
+    line-height: 1.15 !important;
+  }
 
   /* Home sections */
-  .home-section { padding: 60px 20px !important; }
+  .home-section {
+    padding: 60px 20px !important;
+  }
 
   /* Form cards */
-  .form-card    { padding: 20px !important; }
+  .form-card {
+    padding: 20px !important;
+  }
 }
-
 
 #root {
   min-height: 100vh;
@@ -189,11 +221,20 @@ ul, ol {
 }
 
 @keyframes spinDiamond {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
